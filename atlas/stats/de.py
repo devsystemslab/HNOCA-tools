@@ -44,7 +44,7 @@ def test_de(
 
     expr_mat = adata[:, var_names].X
 
-    if isinstance(covar, str):
+    if isinstance(covar, (str, list, tuple)):
         covar = adata.obs[covar]
     elif isinstance(covar, pd.Series):
         covar = covar.values
@@ -93,6 +93,11 @@ def test_de_paired(
         The variable names to test
     adjust_method : str
         The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
+
+    Returns
+    -------
+    pd.DataFrame
+        The differential expression results
     """
     if var_names is None:
         var_names = query_adata.var_names
@@ -101,7 +106,7 @@ def test_de_paired(
 
     var_names = np.intersect1d(var_names, matched_adata.var_names)
 
-    if isinstance(covar, str):
+    if isinstance(covar, (str, list, tuple)):
         covar = query_adata.obs[covar]
     elif isinstance(covar, pd.Series):
         covar = covar.values
