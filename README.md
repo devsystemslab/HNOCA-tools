@@ -1,5 +1,5 @@
 # Human Neural Organoid Cell Atlas Toolbox
-#### The Swiss Army Knive of the Single Cell Cartographer
+#### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
 
 This package provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas. Among other things, it provides functions to:
 
@@ -14,7 +14,7 @@ This package provides a set of tools we used to generate and analyze the Human N
 
 ### 🗺️ Annotation 
 
-We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate cell types based on marker genes.
+We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate the HNOCA. It annotates cells based on manually defined sets of marker genes for individual cell types or cell type hierarchies. It is fast (i.e. GPU-accelerated) and simple to enable annotation of very large datasets.
 
 ```bash
 
