@@ -12,13 +12,12 @@ This package provides a set of tools we used to generate and analyze the Human N
 
 ## Quick start
 
-### Annotation 🗺️
+### 🗺️ Annotation 
 
 
 
 ```python
-import snapseed as snap
-from snapseed.utils import read_yaml
+
 
 # Read in the marker genes
 marker_genes = read_yaml("marker_genes.yaml")
