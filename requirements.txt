@@ -9,3 +9,7 @@ pandas>=1.5.3,<2.0.0
 scipy>=1.13.0
 joblib>=1.4.0
 scArches>=0.6.1
+jax>=0.2.26
+jaxlib>=0.1.75
+numba>=0.56.4
+scikit-learn>=1.1.3
