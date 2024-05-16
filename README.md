@@ -18,6 +18,7 @@ We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly an
 
 ```python
 import hnoca.snapseed as snap
+from hnoca.snapseed.utils import read_yaml
 
 # Read in the marker genes
 marker_genes = read_yaml("marker_genes.yaml")
