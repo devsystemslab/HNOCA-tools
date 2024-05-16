@@ -71,16 +71,17 @@ presence_scores = mapper.get_presence_scores(split_by="batch")
 
 ### 📊 Differential expression
 
-We have used ANOVA for DE analysis on the HNOCA. Here, this is implemented as the `test_de()` function.
+We have used ANOVA for DE analysis between the HNOCA and the reference atlas. Here, this is implemented as the `test_de()` function.
 
 ```python
 import hnoca.stats as stats
 
 # Perform DE analysis
 de_df = stats.test_de(
-    adata,
-    group_key="cell_type",
-    adjust_method='holm',
+    joint_adata,
+    group_key="origin",
+    return_coef_group="organoid",
+    adjust_method="holm",
 )
 ```
 
@@ -94,7 +95,7 @@ matched_adata = mapper.get_matched_expression()
 de_df = stats.test_de_paired(
     query_adata,
     matched_adata,
-    adjust_method='holm',
+    adjust_method="holm",
 )
 ```
 
