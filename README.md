@@ -48,13 +48,13 @@ import scvi
 import hnoca.map as mapping
 
 # Load the reference model
-ref_vae = scvi.model.SCANVI.load(
+ref_model = scvi.model.SCANVI.load(
     os.path.join("model.pt"),
     adata=ref_adata,
 )
 
 # Map query data
-mapper = mapping.AtlasMapper(ref_vae)
+mapper = mapping.AtlasMapper(ref_model)
 mapper.map_query(query_adata, retrain="partial", max_epochs=100, batch_size=1024)
 ```
 
@@ -67,4 +67,20 @@ mapper.compute_wknn(k=100)
 # Transfer labels
 celltype_transfer = mapper.transfer_labels(label_key="cell_type")
 presence_scores = mapper.estimate_presence_scores(split_by="batch")
+```
+
+### 📊 Differential expression
+
+We have used ANOVA for DE analysis on the HNOCA. Here, this is implemented as the `test_de()` function.
+
+```python
+import hnoca.stats as stats
+
+# Perform DE analysis
+de_df = stats.test_de(
+    adata,
+    group_key="cell_type",
+    layer="lognorm",
+    method="anova",
+)
 ```
