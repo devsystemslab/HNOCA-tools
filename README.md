@@ -3,7 +3,7 @@
 
 This package provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas. Among other things, it provides functions to:
 
-- Annotate cell types based on marker genes
+- Rapidly annotate cell types based on marker genes
 - Map query data to the reference atlas
 - Transfer annotations between datasets
 - Compute 'presence scores' for query data based on the reference atlas
@@ -12,7 +12,7 @@ This package provides a set of tools we used to generate and analyze the Human N
 
 ## Quick start
 
-### Annotation
+### Annotation 🗺️
 
 
 
