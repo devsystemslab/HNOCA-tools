@@ -14,10 +14,12 @@ This package provides a set of tools we used to generate and analyze the Human N
 
 ### 🗺️ Annotation 
 
+We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate cell types based on marker genes.
 
+```bash
 
 ```python
-
+from hnoca import 
 
 # Read in the marker genes
 marker_genes = read_yaml("marker_genes.yaml")
