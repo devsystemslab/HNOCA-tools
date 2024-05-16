@@ -80,7 +80,22 @@ import hnoca.stats as stats
 de_df = stats.test_de(
     adata,
     group_key="cell_type",
-    layer="lognorm",
-    method="anova",
+    adjust_method='holm',
 )
 ```
+
+In addition to DE testing on the atlas itself, we found it useful to treat the atlas as a universal "control" and test for DE in query datasets. For this, we first compute the matched expression profile for each cell in the query dataset (from the `mapper` object) and then test for DE using an F-test.
+
+```python
+
+# Compute matched expression profiles
+matched_adata = mapper.get_matched_expression()
+
+# Perform DE analysis
+de_df = stats.test_de_paired(
+    query_adata,
+    matched_adata,
+    adjust_method='holm',
+)
+```
+
