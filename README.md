@@ -44,3 +44,27 @@ snap.annotate_hierarchy(
 For reference mapping, we mostly rely on [scPoli](https://docs.scarches.org/en/latest/scpoli_surgery_pipeline.html) and [scANVI](https://docs.scvi-tools.org/en/1.1.1/user_guide/models/scanvi.html). Based on pretrained models, we here provide a simple interface to map query data to the reference atlas.
 
 ```python
+import scvi
+import hnoca.map as mapping
+
+# Load the reference model
+ref_vae = scvi.model.SCANVI.load(
+    os.path.join("model.pt"),
+    adata=ref_adata,
+)
+
+# Map query data
+mapper = mapping.AtlasMapper(ref_vae)
+mapper.map_query(query_adata, retrain="partial", max_epochs=100, batch_size=1024)
+```
+
+Now that the query dataset is mapped, we can perform kNN-based label transfer and presence score calculation.
+
+```python
+# Compute the weighted kNN
+mapper.compute_wknn(k=100)
+
+# Transfer labels
+celltype_transfer = mapper.transfer_labels(label_key="cell_type")
+presence_scores = mapper.estimate_presence_scores(split_by="batch")
+```
