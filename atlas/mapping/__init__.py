@@ -1,1 +1,1 @@
-from .mapping import AtlasMapper
+from .mapper import AtlasMapper

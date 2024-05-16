@@ -4,7 +4,7 @@ from scipy.sparse import issparse
 from scipy.stats import f
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
-from joblib import Parallel, delayed
+from joblib import Parallel, delayed, wrap_non_picklable_objects
 import multiprocessing
 from tqdm import tqdm
 
@@ -49,6 +49,9 @@ def anova(e, group, covar=None, return_coef_group=None):
     return (var_g, var_covar, var_tot, p1, p2, coef_g)
 
 
+delayed_anova = delayed(wrap_non_picklable_objects(anova))
+
+
 def ancova_group_test(
     expr, group, covar=None, num_threads=1, return_coef_group=None, var_names=None
 ):
@@ -71,7 +74,7 @@ def ancova_group_test(
     num_cores = min(num_threads, multiprocessing.cpu_count())
     if num_cores > 1:
         results = Parallel(n_jobs=num_cores)(
-            delayed(anova)(expr[:, i], group, covar, return_coef_group)
+            delayed_anova(expr[:, i], group, covar, return_coef_group)
             for i in range(expr.shape[1])
         )
     else:
@@ -150,4 +153,3 @@ def f_nonzero_test(expr, covar=None, num_threads=1, var_names=None):
     else:
         df_res.index = pd.RangeIndex(start=0, stop=expr.shape[1], step=1)
     return df_res
-
