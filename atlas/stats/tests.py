@@ -133,6 +133,9 @@ def f_nonzero(e, covar=None):
     return (fval, coef, p)
 
 
+delayed_f_nonzero = delayed(wrap_non_picklable_objects(f_nonzero))
+
+
 def f_nonzero_test(expr, covar=None, num_threads=1, var_names=None):
     if covar is not None:
         covar = pd.DataFrame(covar)
@@ -140,7 +143,7 @@ def f_nonzero_test(expr, covar=None, num_threads=1, var_names=None):
     num_cores = min(num_threads, multiprocessing.cpu_count())
     if num_cores > 1:
         results = Parallel(n_jobs=num_cores)(
-            delayed(f_nonzero)(expr[:, i], covar) for i in range(expr.shape[1])
+            delayed_f_nonzero(expr[:, i], covar) for i in range(expr.shape[1])
         )
     else:
         results = list()
