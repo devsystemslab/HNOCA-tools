@@ -66,7 +66,7 @@ mapper.compute_wknn(k=100)
 
 # Transfer labels
 celltype_transfer = mapper.transfer_labels(label_key="cell_type")
-presence_scores = mapper.estimate_presence_scores(split_by="batch")
+presence_scores = mapper.get_presence_scores(split_by="batch")
 ```
 
 ### 📊 Differential expression
@@ -84,11 +84,10 @@ de_df = stats.test_de(
 )
 ```
 
-In addition to DE testing on the atlas itself, we found it useful to treat the atlas as a universal "control" and test for DE in query datasets. For this, we first compute the matched expression profile for each cell in the query dataset (from the `mapper` object) and then test for DE using an F-test.
+In addition to DE testing on the atlas itself, we found it useful to treat the atlas as a universal "control" and test for DE w.r.t query datasets. For this, we first compute the matched expression profile for each cell in the query dataset and then test for DE using an F-test.
 
 ```python
-
-# Compute matched expression profiles
+# Compute matched expression profiles based on mapped data
 matched_adata = mapper.get_matched_expression()
 
 # Perform DE analysis
