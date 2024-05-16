@@ -157,7 +157,7 @@ class AtlasMapper:
         self.ref_adata.obsm["X_latent"] = ref_latent
         self.query_adata.obsm["X_latent"] = query_latent
 
-    def estimate_presence_scores(
+    def get_presence_scores(
         self, split_by=None, random_walk=True, alpha=0.1, n_rounds=100, log=True
     ):
         """
