@@ -1,1 +1,49 @@
-site_name: My Docs
+---
+site_name: HNOCA
+repo_name: devsystemslab/HNOCA-tools
+site_dir: docs
+docs_dir: site
+watch: 
+  - hnoca
+repo_url: https://github.com/devsystemslab/HNOCA-tools
+repo_name: devsystemslab/HNOCA-tools
+theme:
+  icon:
+    repo: fontawesome/brands/github
+  name: 'material'
+  # logo: assets/images/logo.svg
+  # favicon: assets/images/favicon.png
+  features:
+    - navigation.tabs
+  palette:
+    scheme: default
+    primary: white
+    accent: amber
+extra_css:
+  - stylesheets/extra.css
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+nav:
+  - Home:
+    - About: index.md
+    # - Quickstart: quickstart.md
+  - API Reference:
+      - snapseed:
+        - annotate: api/snapseed/annotate.md
+        - annotate_hierarchy: api/snapseed/annotate_hierarchy.md
+        - find_markers: api/snapseed/find_markers.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          inherited_members: true
+          rendering:
+            show_root_heading: true
+            heading_level: 2
+            show_source: false
+  - mknotebooks:
+      enable_default_jupyter_cell_styling: false
+      enable_default_pandas_dataframe_styling: false

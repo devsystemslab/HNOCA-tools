@@ -1,0 +1,15 @@
+.md-header-nav__button.md-logo img, .md-header-nav__button.md-logo svg {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: currentColor;
+}
+
+.md-header-nav__title {
+    font-size: 1.1rem;
+    line-height: 2.4rem;
+}
+
+.md-content__button {
+  display: none;
+}

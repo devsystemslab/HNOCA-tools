@@ -7,36 +7,26 @@ from .utils import get_markers, get_annot_df
 
 
 def annotate_hierarchy(
-    adata,
-    marker_hierarchy,
-    group_name,
-    method="auroc",
-    layer=None,
-    min_expr=0.1,
-    **kwargs
+    adata, marker_hierarchy, group_name, layer=None, min_expr=0.1, **kwargs
 ):
     """
     Annotate clusters based on a manually defined cell type and marker hierarchy.
 
-    Parameters
-    ----------
-    adata
-        AnnData object
-    marker_hierarchy
-        Dict with marker genes for each celltype arranged hierarchically.
-    group_name
-        Name of the column in adata.obs that contains the cluster labels
-    method
-        Method to use for annotation. Options are "auroc" and "trinatize".
-    layer
-        Layer in adata to use for expression
-    **kwargs
-        Additional arguments to pass to the annotation function.
+    Args:
+        adata: AnnData object
+        marker_hierarchy: Dict with marker genes for each celltype arranged
+            hierarchically.
+        group_name: Name of the column in adata.obs that contains the cluster labels
+        layer: Layer in adata to use for expression
+        **kwargs: Additional arguments to pass to the annotation function.
+
+    Returns:
+        Dict with assignments and metrics
     """
 
     # Annotate at each level of the hierarchy
     assignment_hierarchy = annotate_levels(
-        adata, marker_hierarchy, group_name, method=method, **kwargs
+        adata, marker_hierarchy, group_name, **kwargs
     )
 
     return dict(
@@ -51,7 +41,6 @@ def annotate_levels(
     group_name,
     level=0,
     assignment_levels=None,
-    method="auroc",
     layer=None,
     **kwargs
 ):
@@ -91,7 +80,6 @@ def annotate_levels(
             group_name,
             level=level,
             assignment_levels=assignment_levels,
-            method=method,
             layer=layer,
         )
 
@@ -102,18 +90,15 @@ def annotate(adata, marker_dict, group_name, layer=None, **kwargs):
     """
     Annotate clusters based on a manually defined cell type markers.
 
-    Parameters
-    ----------
-    adata
-        AnnData object
-    marker_dict
-        Dict with marker genes for each celltype
-    group_name
-        Name of the column in adata.obs that contains the cluster labels
-    layer
-        Layer in adata to use for expression
-    **kwargs
-        Additional arguments to pass to the annotation function.
+    Args:
+        adata: AnnData object
+        marker_dict: Dict with marker genes for each celltype
+        group_name: Name of the column in adata.obs that contains the cluster labels
+        layer: Layer in adata to use for expression
+        **kwargs: Additional arguments to pass to the annotation function.
+
+    Returns:
+        pd.DataFrame with assignments
     """
     assignments = annotate_snap(adata, marker_dict, group_name, layer=layer, **kwargs)
     # Join cluster-level results with adata
