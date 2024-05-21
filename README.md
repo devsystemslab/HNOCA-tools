@@ -1,6 +1,8 @@
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
 
+<img src="site/assets/images/logo.png" align="right" width="250"/>
+
 This package provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas. Among other things, it provides functions to:
 
 - Rapidly annotate cell types based on marker genes
