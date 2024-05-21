@@ -1,4 +1,4 @@
-# Human Neural Organoid Cell Atlas Toolbox
+# Get started with the Human Neural Organoid Cell Atlas Toolbox
 
 The HNOCA-tools provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas. Among other things, it provides functions to:
 
@@ -8,8 +8,7 @@ The HNOCA-tools provides a set of tools we used to generate and analyze the Huma
 - Compute 'presence scores' for query data based on the reference atlas
 - Perform differential expression analysis
 
-
-## Quick start
+Here is a quick start guide to the basic functions. More detailed vignettes will be available soon.
 
 ### 🖋️ Annotation 
 

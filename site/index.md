@@ -1,17 +1,4 @@
-# Welcome to MkDocs
+# Welcome the Website of the Human Neural Organoid Cell Atlas (HNOCA)
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+The Human Neural Organoid Cell Atlas (HNOCA) is a collection of single-cell RNA-seq data from human brain organoids. The HNOCA is a resource for the scientific community to explore the cellular composition of human brain organoids and to understand the molecular mechanisms underlying brain development and disease.
 
-## Commands
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.

@@ -18,7 +18,7 @@ theme:
   palette:
     scheme: default
     primary: white
-    accent: amber
+    accent: orange
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
@@ -28,8 +28,13 @@ markdown_extensions:
 nav:
   - Home:
     - About: index.md
-    - Quickstart: quickstart.md
-  - HNOCA-tools API:
+    - HNOCA-tools: quickstart.md
+    - ArchMap: archmap.md
+  - Vignettes:
+    - Get started: vignettes/get_started.md
+  - API Reference:
+      - map:
+        - AtlasMapper: api/map/AtlasMapper.md
       - snapseed:
         - annotate: api/snapseed/annotate.md
         - annotate_hierarchy: api/snapseed/annotate_hierarchy.md
@@ -37,8 +42,6 @@ nav:
       - stats:
         - test_de: api/stats/test_de.md
         - test_de_paired: api/stats/test_de_paired.md
-      - map:
-        - AtlasMapper: api/map/AtlasMapper.md
 plugins:
   - search
   - mkdocstrings:
@@ -48,7 +51,7 @@ plugins:
             docstring_style: google
             show_root_heading: true
             parameter_headings: false
-            heading_level: 3
+            heading_level: 2
             show_source: false
             merge_init_into_class: true
             docstring_options:
