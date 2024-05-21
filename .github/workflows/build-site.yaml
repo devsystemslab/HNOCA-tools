@@ -26,4 +26,5 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material mknotebooks 'mkdocstrings[crystal,python]'
+      - run: mkdocs build
       - run: mkdocs gh-deploy --force
