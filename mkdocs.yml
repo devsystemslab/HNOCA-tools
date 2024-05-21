@@ -28,7 +28,7 @@ markdown_extensions:
 nav:
   - Home:
     - About: index.md
-    # - Quickstart: quickstart.md
+    - Quickstart: quickstart.md
   - HNOCA-tools API:
       - snapseed:
         - annotate: api/snapseed/annotate.md
