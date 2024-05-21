@@ -14,7 +14,7 @@ def annotate_hierarchy(
     layer: str = None,
     min_expr: float = 0.1,
     **kwargs
-):
+) -> dict:
     """
     Annotate clusters based on a manually defined cell type and marker hierarchy.
 
@@ -94,7 +94,7 @@ def annotate_levels(
 
 def annotate(
     adata: ad.AnnData, marker_dict: dict, group_name: str, layer: str = None, **kwargs
-):
+) -> pd.DataFrame:
     """
     Annotate clusters based on a manually defined cell type markers.
 

@@ -59,7 +59,7 @@ class AtlasMapper:
                 * `"full"` will retrain the entire model
                 * `"none"` will use the reference model without retraining
 
-            kwargs: Additional keyword arguments to pass to the training function
+            **kwargs: Additional keyword arguments to pass to the training function
         """
         if retrain in ["partial", "full"]:
             if self.model_type == "scanvi":
@@ -181,7 +181,7 @@ class AtlasMapper:
         alpha: float = 0.1,
         n_rounds: int = 100,
         log: bool = True,
-    ):
+    ) -> dict:
         """
         Estimate the presence score of the query dataset
 
@@ -191,6 +191,9 @@ class AtlasMapper:
             alpha: The heat diffusion parameter for the random walk
             n_rounds: The number of rounds for the random walk
             log: Whether to log the presence score
+
+        Returns:
+            A dictionary with the presence scores
         """
 
         scores = estimate_presence_score(
@@ -209,13 +212,16 @@ class AtlasMapper:
         self.ref_trans_prob = scores["ref_trans_prop"]
         return scores
 
-    def transfer_labels(self, label_key: str):
+    def transfer_labels(self, label_key: str) -> dict:
         """
         Transfer labels from the reference dataset to the query dataset
 
         Args:
             label_key: str
                 The column in the reference dataset to transfer
+
+        Returns:
+            A dictionary with the transfer scores
         """
 
         scores = transfer_labels(
@@ -227,13 +233,16 @@ class AtlasMapper:
 
         return scores
 
-    def get_matched_expression(self, rescale_factor: int = 1):
+    def get_matched_expression(self, rescale_factor: int = 1) -> ad.AnnData:
         """
         Get the expression of reference cells matched to query cells. This can be used for quantitative comparisons like DE analysis.
 
         Args:
             rescale_factor: str
                 Factor to rescale the log-normalized counts
+
+        Returns:
+            An AnnData object with the matched expression
         """
         matched_adata = get_matched_transcriptome(
             self.query_adata,

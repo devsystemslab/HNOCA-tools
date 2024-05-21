@@ -1,3 +1,4 @@
+import anndata as ad
 import pandas as pd
 
 import jax
@@ -9,7 +10,12 @@ from .utils import get_expr, matrix_to_long_df
 from .auroc import auc_expr
 
 
-def find_markers(adata, group_name, features=None, layer=None):
+def find_markers(
+    adata: ad.AnnData,
+    group_name: str,
+    features: Optional[list] = None,
+    layer: Optional[str] = None,
+) -> pd.DataFrame:
     """
     Find markers for each cluster.
 
@@ -20,7 +26,7 @@ def find_markers(adata, group_name, features=None, layer=None):
         layer: Layer in adata to use for expression
 
     Returns:
-        DataFrame with AUROC and detection ratio for each gene and cluster.
+        A `pd.DataFrame` with AUROC and detection ratio for each gene and cluster.
     """
     # Get expression matrix
     expr, features = get_expr(adata, features=features, layer=layer)

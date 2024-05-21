@@ -15,7 +15,7 @@ def test_de(
     return_coef_group: str = None,
     var_names: list = None,
     adjust_method: str = "holm",
-):
+) -> pd.DataFrame:
     """
     Test for differential expression using ANOVA
 
@@ -35,8 +35,7 @@ def test_de(
             The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
 
     Returns:
-        pd.DataFrame
-            The differential expression results
+        A `pd.DataFrame` with the differential expression results
     """
     if var_names is None:
         var_names = adata.var_names
@@ -74,7 +73,7 @@ def test_de_paired(
     num_threads: int = 1,
     var_names: list = None,
     adjust_method: str = "holm",
-):
+) -> pd.DataFrame:
     """
     Test for differential expression between query data and matches reference cells using an F-test.
 
@@ -93,8 +92,7 @@ def test_de_paired(
             The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
 
     Returns:
-        pd.DataFrame
-            The differential expression results
+        A `pd.DataFrame` with the differential expression results
     """
     if var_names is None:
         var_names = query_adata.var_names
