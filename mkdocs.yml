@@ -11,8 +11,8 @@ theme:
   icon:
     repo: fontawesome/brands/github
   name: 'material'
-  # logo: assets/images/logo.svg
-  # favicon: assets/images/favicon.png
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon.png
   features:
     - navigation.tabs
   palette:
@@ -29,11 +29,13 @@ nav:
   - Home:
     - About: index.md
     # - Quickstart: quickstart.md
-  - API Reference:
+  - HNOCA-tools API:
       - snapseed:
         - annotate: api/snapseed/annotate.md
         - annotate_hierarchy: api/snapseed/annotate_hierarchy.md
         - find_markers: api/snapseed/find_markers.md
+      - stats:
+        - test_de: api/stats/test_de.md
 plugins:
   - search
   - mkdocstrings:

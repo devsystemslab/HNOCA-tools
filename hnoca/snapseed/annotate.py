@@ -1,3 +1,4 @@
+import anndata as ad
 import pandas as pd
 
 from .trinarize import annotate_cytograph
@@ -7,14 +8,19 @@ from .utils import get_markers, get_annot_df
 
 
 def annotate_hierarchy(
-    adata, marker_hierarchy, group_name, layer=None, min_expr=0.1, **kwargs
+    adata: ad.AnnData,
+    marker_hierarchy: dict,
+    group_name: str,
+    layer: str = None,
+    min_expr: float = 0.1,
+    **kwargs
 ):
     """
     Annotate clusters based on a manually defined cell type and marker hierarchy.
 
     Args:
         adata: AnnData object
-        marker_hierarchy: Dict with marker genes for each celltype arranged
+        marker_hierarchy: dict arker genes for each celltype arranged
             hierarchically.
         group_name: Name of the column in adata.obs that contains the cluster labels
         layer: Layer in adata to use for expression
@@ -86,7 +92,9 @@ def annotate_levels(
     return assignment_levels
 
 
-def annotate(adata, marker_dict, group_name, layer=None, **kwargs):
+def annotate(
+    adata: ad.AnnData, marker_dict: dict, group_name: str, layer: str = None, **kwargs
+):
     """
     Annotate clusters based on a manually defined cell type markers.
 

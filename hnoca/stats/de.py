@@ -1,3 +1,5 @@
+from typing import Union
+import anndata as ad
 import numpy as np
 import pandas as pd
 from statsmodels.stats.multitest import multipletests
@@ -6,41 +8,43 @@ from .tests import ancova_group_test, f_nonzero_test, anova
 
 
 def test_de(
-    adata,
-    group,
-    covar=None,
-    num_threads=1,
-    return_coef_group=None,
+    adata: ad.AnnData,
+    group: Union[str, pd.Series],
+    covar: Union[str, pd.DataFrame],
+    num_threads: int = 1,
+    return_coef_group: str = None,
     var_names=None,
     adjust_method="holm",
 ):
     """
     Test for differential expression using ANOVA
 
-    Parameters
-    ----------
-    adata : AnnData
-        The AnnData object
-    group : str or pd.Series
-        The group labels
-    covar : str or pd.DataFrame
-        The covariates
-    num_threads : int
-        The number of threads to use
-    return_coef_group : str
-        The group to return the coefficient for
-    var_names : list
-        The variable names to test
-    adjust_method : str
-        The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
+    Args:
+        adata: AnnData object
+        group: str or pd.Series
+            The group labels
+        covar: str or pd.DataFrame
+            The covariates
+        num_threads: int
+            The number of threads to use
+        return_coef_group: str
+            The group to return coefficients for
+        var_names: list
+            The variable names to test
+        adjust_method: str
+            The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
 
-    Returns
-    -------
-    pd.DataFrame
-        The differential expression results
+    Returns:
+        pd.DataFrame
+            The differential expression results
     """
     if var_names is None:
         var_names = adata.var_names
+
+
+
+
+
 
     expr_mat = adata[:, var_names].X
 
@@ -79,25 +83,23 @@ def test_de_paired(
     """
     Test for differential expression between query data and matches reference cells using an F-test.
 
-    Parameters
-    ----------
-    query_adata : AnnData
-        The query AnnData object
-    matched_adata : AnnData
-        The matched reference AnnData object
-    covar : str or pd.DataFrame
-        The covariates
-    num_threads : int
-        The number of threads to use
-    var_names : list
-        The variable names to test
-    adjust_method : str
-        The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
+    Args:
+        query_adata: AnnData object
+            The query data
+        matched_adata: AnnData object
+            The matched reference data
+        covar: str or pd.DataFrame
+            The covariates
+        num_threads: int
+            The number of threads to use
+        var_names: list
+            The variable names to test
+        adjust_method: str
+            The method to adjust p-values. See https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html
 
-    Returns
-    -------
-    pd.DataFrame
-        The differential expression results
+    Returns:
+        pd.DataFrame
+            The differential expression results
     """
     if var_names is None:
         var_names = query_adata.var_names
