@@ -12,7 +12,7 @@ theme:
     repo: fontawesome/brands/github
   name: 'material'
   logo: assets/images/logo.svg
-  favicon: assets/images/favicon.png
+  favicon: assets/images/logo.png
   features:
     - navigation.tabs
   palette:
