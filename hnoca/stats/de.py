@@ -13,8 +13,8 @@ def test_de(
     covar: Union[str, pd.DataFrame],
     num_threads: int = 1,
     return_coef_group: str = None,
-    var_names=None,
-    adjust_method="holm",
+    var_names: list = None,
+    adjust_method: str = "holm",
 ):
     """
     Test for differential expression using ANOVA
@@ -40,11 +40,6 @@ def test_de(
     """
     if var_names is None:
         var_names = adata.var_names
-
-
-
-
-
 
     expr_mat = adata[:, var_names].X
 
@@ -73,12 +68,12 @@ def test_de(
 
 
 def test_de_paired(
-    query_adata,
-    matched_adata,
-    covar=None,
-    num_threads=1,
-    var_names=None,
-    adjust_method="holm",
+    query_adata: ad.AnnData,
+    matched_adata: ad.AnnData,
+    covar: Union[str, pd.DataFrame],
+    num_threads: int = 1,
+    var_names: list = None,
+    adjust_method: str = "holm",
 ):
     """
     Test for differential expression between query data and matches reference cells using an F-test.
