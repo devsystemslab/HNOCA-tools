@@ -37,6 +37,8 @@ nav:
       - stats:
         - test_de: api/stats/test_de.md
         - test_de_paired: api/stats/test_de_paired.md
+      - map:
+        - AtlasMapper: api/map/AtlasMapper.md
 plugins:
   - search
   - mkdocstrings:
@@ -46,9 +48,11 @@ plugins:
             docstring_style: google
             show_root_heading: true
             parameter_headings: false
-            heading_level: 4
+            heading_level: 3
             show_source: false
-          inherited_members: true
+            merge_init_into_class: true
+            docstring_options:
+              ignore_init_summary: true
   - mknotebooks:
       enable_default_jupyter_cell_styling: false
       enable_default_pandas_dataframe_styling: false

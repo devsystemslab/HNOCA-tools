@@ -19,7 +19,18 @@ from .matching import get_matched_transcriptome
 
 
 class AtlasMapper:
+    """
+    A class to map a query dataset to a reference dataset using scPoli, scVI or scANVI models.
+    """
+
     def __init__(self, ref_model):
+        """
+        Initialize the AtlasMapper object
+
+        Args:
+            ref_model: scvi.model
+                The reference model to map the query dataset to.
+        """
         self.model_type = self._check_model_type(ref_model)
         self.ref_model = ref_model
         self.ref_adata = ref_model.adata
@@ -30,14 +41,13 @@ class AtlasMapper:
         """
         Map a query dataset to the reference dataset
 
-        Parameters
-        ----------
-        query_adata : AnnData
-            The query dataset to map to the reference dataset
-        query_model : str
-            The model to use for the query dataset
-        retrain : str
-            Whether to retrain the query model. Options are "partial", "full" or "none"
+        Args:
+            query_adata : AnnData
+                The query dataset to map to the reference dataset
+            query_model : str
+                The model to use for the query dataset
+            retrain : str
+                Whether to retrain the query model. Options are "partial", "full" or "none"
         """
         if retrain in ["partial", "full"]:
             if self.model_type == "scanvi":
@@ -125,18 +135,18 @@ class AtlasMapper:
         """
         Compute the weighted k-nearest neighbors graph between the reference and query datasets
 
-        Parameters
-        ----------
-        k : int
-            Number of neighbors per cell
-        query2ref : bool
-            Consider query-to-ref neighbors
-        ref2query : bool
-            Consider ref-to-query neighbors
-        weighting_scheme : str
-            How to weight edges in the ref-query neighbor graph
-        top_n : int
-            The number of top neighbors to consider
+
+        Args:
+            k : int
+                Number of neighbors per cell
+            query2ref : bool
+                Consider query-to-ref neighbors
+            ref2query : bool
+                Consider ref-to-query neighbors
+            weighting_scheme : str
+                How to weight edges in the ref-query neighbor graph
+            top_n : int
+                The number of top neighbors to consider
         """
 
         self.ref_adata = ref_adata if ref_adata is not None else self.ref_adata
@@ -163,18 +173,17 @@ class AtlasMapper:
         """
         Estimate the presence score of the query dataset
 
-        Parameters
-        ----------
-        split_by : str
-            The column in the query dataset to split by
-        random_walk : bool
-            Whether to use random walk to estimate presence score
-        alpha : float
-            The heat diffusion parameter for the random walk
-        n_rounds : int
-            The number of rounds for the random walk
-        log : bool
-            Whether to log the presence score
+        Args:
+            split_by: str
+                The column in the query dataset to split by
+            random_walk: bool
+                Whether to use random walk to estimate presence score
+            alpha: float
+                The heat diffusion parameter for the random walk
+            n_rounds: int
+                The number of rounds for the random walk
+            log: bool
+                Whether to log the presence score
         """
 
         scores = estimate_presence_score(
@@ -197,10 +206,9 @@ class AtlasMapper:
         """
         Transfer labels from the reference dataset to the query dataset
 
-        Parameters
-        ----------
-        label_key : str
-            The column in the reference dataset to transfer
+        Args:
+            label_key: str
+                The column in the reference dataset to transfer
         """
 
         scores = transfer_labels(
@@ -216,12 +224,11 @@ class AtlasMapper:
         """
         Get the expression of reference cells matched to query cells. This can be used for quantitative comparisons like DE analysis.
 
-        Parameters
-        ----------
-        layer: str
-            If not None, uses this as the key in adata.layers to return the reference transcriptome.
-        rescale_factor: str
-            Factor to rescale the log-normalized counts
+        Args:
+            layer: str
+                If not None, uses this as the key in adata.layers to return the reference transcriptome.
+            rescale_factor: str
+                Factor to rescale the log-normalized counts
         """
         matched_adata = get_matched_transcriptome(
             self.query_adata,
@@ -236,10 +243,9 @@ class AtlasMapper:
         """
         Save the mapper object to disk
 
-        Parameters
-        ----------
-        output_dir : str
-            The directory to save the mapper object
+        Args:
+            output_dir: str
+                The directory to save the mapper object
         """
         os.makedirs(output_dir, exist_ok=True)
         with open(os.path.join(output_dir, "mapper.pkl"), "wb") as f:
@@ -250,10 +256,9 @@ class AtlasMapper:
         """
         Load the mapper object from disk
 
-        Parameters
-        ----------
-        input_dir : str
-            The directory to load the mapper object
+        Args:
+            input_dir: str
+                The directory to load the mapper object
         """
         with open(os.path.join(input_dir, "mapper.pkl"), "rb") as f:
             mapper = cloudpickle.load(f)
