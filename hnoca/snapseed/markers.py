@@ -13,20 +13,14 @@ def find_markers(adata, group_name, features=None, layer=None):
     """
     Find markers for each cluster.
 
-    Parameters
-    ----------
-    adata
-        AnnData object
-    group_name
-        Name of the column in adata.obs that contains the cluster labels
-    features
-        List of features to use for marker identification
-    layer
-        Layer in adata to use for expression
+    Args:
+        adata: AnnData object
+        group_name: Name of the column in adata.obs that contains the cluster labels
+        features: List of features to use for marker identification
+        layer: Layer in adata to use for expression
 
-    Returns
-    -------
-    DataFrame with AUROC and detection ratio for each gene and cluster.
+    Returns:
+        DataFrame with AUROC and detection ratio for each gene and cluster.
     """
     # Get expression matrix
     expr, features = get_expr(adata, features=features, layer=layer)
