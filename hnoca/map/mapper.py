@@ -3,7 +3,7 @@ import sys
 
 import cloudpickle
 
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 import anndata as ad
 import numpy as np
