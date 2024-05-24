@@ -15,7 +15,7 @@ def create_pseudobulk(
     min_cells: int = 10,
     min_counts: int = 1000,
     **kwargs,
-):
+) -> ad.AnnData:
     """
     Create pseudobulk data from anndata object
 
