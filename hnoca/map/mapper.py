@@ -199,7 +199,7 @@ class AtlasMapper:
         scores = estimate_presence_score(
             self.ref_adata,
             self.query_adata,
-            self.wknn,
+            wknn=self.wknn,
             use_rep_ref_wknn="X_latent",
             use_rep_query_wknn="X_latent",
             ref_trans_prop=self.ref_trans_prob,
