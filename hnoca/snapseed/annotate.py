@@ -1,7 +1,6 @@
 import anndata as ad
 import pandas as pd
 
-from .trinarize import annotate_cytograph
 from .auroc import annotate_snap
 
 from .utils import get_markers, get_annot_df
