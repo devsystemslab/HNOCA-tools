@@ -146,7 +146,7 @@ def jit_auroc(x, groups):
     fps = jnp.r_[0, fps]
     fpr = fps / fps[-1]
     tpr = tps / tps[-1]
-    area = jnp.trapz(tpr, fpr)
+    area = jnp.trapezoid(tpr, fpr)
     return area
 
 
