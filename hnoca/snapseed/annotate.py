@@ -54,9 +54,7 @@ def annotate_levels(
     level += 1
     level_name = "level_" + str(level)
     marker_dict = get_markers(marker_hierarchy)
-    assignments = annotate(
-        adata, marker_dict, group_name, method=method, layer=layer, **kwargs
-    )
+    assignments = annotate(adata, marker_dict, group_name, layer=layer, **kwargs)
 
     if assignment_levels is None:
         assignment_levels = {}
