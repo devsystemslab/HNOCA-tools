@@ -41,6 +41,7 @@ class AtlasMapper:
         self.ref_adata = ref_model.adata
         self.query_model = None
         self.ref_trans_prob = None
+        self.wknn = None
 
     def map_query(
         self,
@@ -198,6 +199,9 @@ class AtlasMapper:
             A dictionary with the presence scores
         """
 
+        if self.wknn is None:
+            raise AttributeError("WKNN needs to be computed first.")
+
         scores = estimate_presence_score(
             self.ref_adata,
             self.query_adata,
@@ -226,6 +230,9 @@ class AtlasMapper:
             A dictionary with the transfer scores
         """
 
+        if self.wknn is None:
+            raise AttributeError("WKNN needs to be computed first.")
+
         scores = transfer_labels(
             self.ref_adata,
             self.query_adata,
@@ -246,6 +253,10 @@ class AtlasMapper:
         Returns:
             An AnnData object with the matched expression
         """
+
+        if self.wknn is None:
+            raise AttributeError("WKNN needs to be computed first.")
+
         matched_adata = get_matched_transcriptome(
             self.query_adata,
             self.ref_adata,
