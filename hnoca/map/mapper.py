@@ -45,7 +45,7 @@ class AtlasMapper:
     def map_query(
         self,
         query_adata: ad.AnnData,
-        retrain: Literal["partial", "full", "none"],
+        retrain: Literal["partial", "full", "none"] = "partial",
         **kwargs,
     ):
         """
@@ -61,13 +61,15 @@ class AtlasMapper:
 
             **kwargs: Additional keyword arguments to pass to the training function
         """
+        # TODO: Check if the query dataset has the same features as the reference dataset
+        # and subset if not -> through warning / error if not possible
         if retrain in ["partial", "full"]:
             if self.model_type == "scanvi":
                 self._train_scanvi(query_adata, retrain, **kwargs)
             if self.model_type == "scvi":
                 self._train_scvi(query_adata, retrain, **kwargs)
             if self.model_type == "scpoli":
-                self._train_scpoli(query_adata, **kwargs)
+                self._train_scpoli(query_adata, retrain, **kwargs)
             self.query_adata = self.query_model.adata
         else:
             self.query_model = self.ref_model
@@ -86,7 +88,7 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
-    def _train_scvi(self, query_adata, query_model, retrain="partial", **kwargs):
+    def _train_scvi(self, query_adata, retrain="partial", **kwargs):
         """
         Train a new scvi model on the query data
         """
@@ -99,7 +101,7 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
-    def _train_scpoli(self, query_adata, query_model, **kwargs):
+    def _train_scpoli(self, query_adata, retrain="partial", **kwargs):
         """
         Train a new scpoli model on the query data
         """
