@@ -17,6 +17,7 @@ import scanpy as sc
 
 from .wknn import get_wknn, transfer_labels, estimate_presence_score
 from .matching import get_matched_transcriptome
+from .utils import prepare_features
 
 
 class AtlasMapper:
@@ -62,8 +63,9 @@ class AtlasMapper:
 
             **kwargs: Additional keyword arguments to pass to the training function
         """
-        # TODO: Check if the query dataset has the same features as the reference dataset
-        # and subset if not -> through warning / error if not possible
+        # Prepare the features of the query dataset
+        query_adata = prepare_features(query_adata, self.ref_model)
+
         if retrain in ["partial", "full"]:
             if self.model_type == "scanvi":
                 self._train_scanvi(query_adata, retrain, **kwargs)
