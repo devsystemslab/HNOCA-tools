@@ -111,6 +111,13 @@ class AtlasMapper:
         freeze = retrain != "full"
         labeled_indices = np.arange(query_adata.X.shape[0])
 
+        # Set cell type to unknown if not present
+        missing_cell_types = np.setdiff1d(
+            np.array(self.ref_model.cell_type_keys_), query_adata.obs.columns
+        )
+        if len(missing_cell_types) > 0:
+            query_adata.obs[missing_cell_types] = "Unknown"
+
         vae_q = scarches.models.scPoli.load_query_data(
             query_adata,
             reference_model=self.ref_model,
