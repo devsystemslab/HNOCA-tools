@@ -48,6 +48,7 @@ class AtlasMapper:
         self,
         query_adata: ad.AnnData,
         retrain: Literal["partial", "full", "none"] = "partial",
+        labeled_indices: Optional[np.ndarray] = None,
         **kwargs,
     ):
         """
@@ -72,7 +73,7 @@ class AtlasMapper:
             if self.model_type == "scvi":
                 self._train_scvi(query_adata, retrain, **kwargs)
             if self.model_type == "scpoli":
-                self._train_scpoli(query_adata, retrain, **kwargs)
+                self._train_scpoli(query_adata, retrain, labeled_indices, **kwargs)
             self.query_adata = self.query_model.adata
         else:
             self.query_model = self.ref_model
@@ -109,7 +110,7 @@ class AtlasMapper:
         Train a new scpoli model on the query data
         """
         freeze = retrain != "full"
-        labeled_indices = np.arange(query_adata.X.shape[0])
+        labeled_indices = [] if labeled_indices is None else labeled_indices
 
         # Set cell type to unknown if not present
         missing_cell_types = np.setdiff1d(
