@@ -149,6 +149,21 @@ class AtlasMapper:
         if self.model_type == "scpoli":
             return model.get_latent(adata, **kwargs)
 
+    def get_latent(self, adata, **kwargs):
+        """
+        Get the latent representation of the query and reference datasets
+
+        Args:
+            adata: The query or reference dataset
+            **kwargs: Additional keyword arguments to pass to the get_latent function
+
+        Returns:
+            A tuple with the latent representation of the query and reference datasets
+        """
+        model = self.query_model if self.query_model is not None else self.ref_model
+        latent = self._get_latent(model, adata, **kwargs)
+        return latent
+
     def compute_wknn(
         self,
         ref_adata: ad.AnnData = None,
