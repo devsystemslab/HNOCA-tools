@@ -62,6 +62,7 @@ class AtlasMapper:
                 * `"full"` will retrain the entire model
                 * `"none"` will use the reference model without retraining
 
+            labeled_indices: The indices of labeled cells in the query dataset. This is only used for scPoli models.
             **kwargs: Additional keyword arguments to pass to the training function
         """
         # Prepare the features of the query dataset
