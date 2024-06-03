@@ -16,7 +16,7 @@ def prepare_features(query_adata, ref_model):
     if len(missing_features) == 0:
         return query_adata
 
-    warnings.warn(
+    print(
         f"Warning: Query dataset is missing {len(missing_features)} features from the reference dataset. Adding missing features as zero-filled columns."
     )
 
