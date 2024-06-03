@@ -69,7 +69,7 @@ def test_de(
 def test_de_paired(
     query_adata: ad.AnnData,
     matched_adata: ad.AnnData,
-    covar: Union[str, pd.DataFrame],
+    covar: Optional[Union[str, pd.DataFrame]] = None,
     num_threads: int = 1,
     var_names: list = None,
     adjust_method: str = "holm",
