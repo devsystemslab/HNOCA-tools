@@ -106,7 +106,9 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
-    def _train_scpoli(self, query_adata, retrain="partial", **kwargs):
+    def _train_scpoli(
+        self, query_adata, retrain="partial", labeled_indices=None, **kwargs
+    ):
         """
         Train a new scpoli model on the query data
         """
