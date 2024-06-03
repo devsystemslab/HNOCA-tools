@@ -149,7 +149,7 @@ class AtlasMapper:
         if self.model_type == "scpoli":
             return model.get_latent(adata, **kwargs)
 
-    def get_latent(self, adata, **kwargs):
+    def get_latent_representation(self, adata=None, **kwargs):
         """
         Get the latent representation of the query and reference datasets
 
@@ -160,7 +160,9 @@ class AtlasMapper:
         Returns:
             A tuple with the latent representation of the query and reference datasets
         """
+        adata = self.query_adata if adata is None else adata
         model = self.query_model if self.query_model is not None else self.ref_model
+        adata = prepare_features(adata, model)
         latent = self._get_latent(model, adata, **kwargs)
         return latent
 
