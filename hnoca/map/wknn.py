@@ -245,9 +245,9 @@ def estimate_presence_score(
             index=ref_adata.obs_names,
         )
     else:
-        df_presence = pd.DataFrame({columns[0]: presence_split_sm[0]}).set_index(
-            ref_adata.obs_names
-        )
+        df_presence = pd.DataFrame(
+            {columns[0]: presence_split_sm[0].flatten()}
+        ).set_index(ref_adata.obs_names)
 
     if log:
         df_presence = df_presence.apply(lambda x: np.log1p(x), axis=0)
