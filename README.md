@@ -12,6 +12,14 @@ This package provides a set of tools we used to generate and analyze the Human N
 - Perform differential expression analysis
 
 
+## Installation
+The latest release of HNOCA-tools can be installed with `pip`
+
+```
+pip install hnoca
+```
+
+
 ## Quick start
 
 ### 🖋️ Annotation 
