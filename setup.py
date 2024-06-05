@@ -11,7 +11,7 @@ requirements = [
 ]
 
 setup(
-    name="HNOCA-tools",
+    name="hnoca",
     version="0.1.0",
     author=author,
     author_email=author_email,
