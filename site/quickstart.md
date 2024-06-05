@@ -9,7 +9,15 @@ The HNOCA-tools package provides a set of tools we used to generate and analyze 
 - Perform differential expression analysis
 
 
-## Quick start
+## Installation
+
+HNOCA-tools can be installed using `pip`:
+
+```bash
+pip install hnoca
+```
+
+## Quick overview
 
 ### 🖋️ Annotation 
 
