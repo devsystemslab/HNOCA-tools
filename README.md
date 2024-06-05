@@ -1,3 +1,7 @@
+[![PyPI version](https://badge.fury.io/py/hnoca.svg)](https://badge.fury.io/py/hnoca)
+[![Python version](https://shields.io/badge/python-3.9%20%7C%203.10%20-blue)]()
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
 
@@ -10,6 +14,14 @@ This package provides a set of tools we used to generate and analyze the Human N
 - Transfer annotations between datasets
 - Compute 'presence scores' for query data based on the reference atlas
 - Perform differential expression analysis
+
+
+## Installation
+The latest release of HNOCA-tools can be installed with `pip`
+
+```
+pip install hnoca
+```
 
 
 ## Quick start
