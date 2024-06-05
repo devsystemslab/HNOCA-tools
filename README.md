@@ -1,4 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/hnoca.svg)](https://badge.fury.io/py/hnoca)
+[![Python version](https://shields.io/badge/python-3.9%20%7C%203.10%20-blue)]()
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Human Neural Organoid Cell Atlas Toolbox
