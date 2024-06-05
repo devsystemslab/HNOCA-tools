@@ -1,3 +1,6 @@
+[![PyPI version](https://badge.fury.io/py/hnoca.svg)](https://badge.fury.io/py/hnoca)
+[Black](https://img.shields.io/badge/code%20style-black-000000.svg)
+
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
 
