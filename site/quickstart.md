@@ -1,6 +1,6 @@
 # Human Neural Organoid Cell Atlas Toolbox
 
-The HNOCA-tools package provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas. Among other things, it provides functions to:
+The HNOCA-tools package provides a set of tools we used to generate and analyze the Human Neural Organoid Cell Atlas (or other atlases, if you like). Among other things, it provides functions to:
 
 - Rapidly annotate cell types based on marker genes
 - Map query data to the reference atlas
