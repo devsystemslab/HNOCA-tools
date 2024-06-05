@@ -46,6 +46,8 @@ nav:
         - test_de: api/stats/test_de.md
         - test_de_paired: api/stats/test_de_paired.md
         - create_pseudobulk: api/stats/create_pseudobulk.md
+      - utils:
+        - compute_glycolysis_score: api/utils/compute_glycolysis_score.md
 plugins:
   - search
   - mkdocstrings:
