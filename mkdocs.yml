@@ -32,8 +32,9 @@ nav:
     - ArchMap: archmap.md
   - Tutorials:
     - Get started: vignettes/get_started.md
+    - HNOCA exploration and mapping: vignettes/exploration.ipynb
     - Annotation: vignettes/annotation.ipynb
-    - HNOCA atlas mapping: vignettes/atlas_mapping.ipynb
+    - Mapping to the HNOCA: vignettes/atlas_mapping.ipynb
     - Primary reference mapping: vignettes/reference_mapping.ipynb
   - API Reference:
       - map:
