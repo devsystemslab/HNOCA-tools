@@ -4,7 +4,7 @@ Here we give a short overview of the relevant features of the [ArchMap](https://
 
 Archmap is an easy-to-use web frontend that offers query-to-reference mapping for scRNA-seq datasets and interactive exploration of the results. It is, therefore, a great resource for mapping your new organoid dataset to the HNOCA or the fetal brain atlas by [Braun et al.](https://doi.org/10.1126/science.adf1226)
 
-Please refer to the official ArchMap documentation for a general introduction and explanation of how to use ArchMap for query-to-reference mapping.
+Please refer to the official [ArchMap documentation](https://archmap-docu.readthedocs.io/en/latest/) for a general introduction and explanation of how to use ArchMap for query-to-reference mapping.
 
 
 ## Use case 1: Mapping an organoid query dataset to the HNOCA with ArchMap
