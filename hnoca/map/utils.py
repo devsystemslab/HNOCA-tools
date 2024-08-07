@@ -27,13 +27,22 @@ def prepare_features(query_adata, ref_model):
         (new_adata.shape[0], len(missing_features)), dtype=new_adata.X.dtype
     )
     new_X = sparse.hstack((new_adata.X, extra_X))
+
+    new_layers = {}
+    for layer in new_adata.layers.keys():
+        new_layers[layer] = sparse.hstack((new_adata.layers[layer], extra_X))
+
     new_var = pd.DataFrame(
         {"symbol": list(new_adata.var_names) + list(missing_features)}
     ).set_axis(list(new_adata.var_names) + list(missing_features))
 
     new_adata = ad.AnnData(
-        X=new_X, obs=new_adata.obs.copy(), var=new_var, obsm=new_adata.obsm.copy()
+        X=new_X,
+        obs=new_adata.obs.copy(),
+        var=new_var,
+        obsm=new_adata.obsm.copy(),
+        layers=new_layers,
     )
-    new_adata = new_adata[:, ref_features]
+    new_adata = new_adata[:, ref_features].copy()
 
     return new_adata
