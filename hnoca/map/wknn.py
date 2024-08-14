@@ -12,6 +12,7 @@ import sys
 import os
 import importlib.util
 import argparse
+import tqdm
 
 warnings.filterwarnings("ignore")
 
@@ -221,15 +222,17 @@ def estimate_presence_score(
         presence_split = [np.array(wknn.sum(axis=0)).flatten()]
 
     if do_random_walk:
-        presence_split_sm = [
-            random_walk_with_restart(
-                init=x,
-                transition_prob=ref_trans_prop,
-                alpha=alpha_random_walk,
-                num_rounds=num_rounds_random_walk,
+        print("Info: Smoothing presence scores with random walk")
+        presence_split_sm = []
+        for x in tqdm.tqdm(presence_split):
+            presence_split_sm.append(
+                random_walk_with_restart(
+                    init=x,
+                    transition_prob=ref_trans_prop,
+                    alpha=alpha_random_walk,
+                    num_rounds=num_rounds_random_walk,
+                )
             )
-            for x in presence_split
-        ]
     else:
         presence_split_sm = [x[:, None] for x in presence_split]
 
