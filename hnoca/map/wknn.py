@@ -102,7 +102,7 @@ def get_wknn(
     ref2=None,
     k: int = 100,
     query2ref: bool = True,
-    ref2query: bool = True,
+    ref2query: bool = False,
     weighting_scheme: Literal[
         "n", "top_n", "jaccard", "jaccard_square", "gaussian", "dist"
     ] = "jaccard_square",
