@@ -17,7 +17,27 @@ import tqdm
 warnings.filterwarnings("ignore")
 
 
-def nn2adj(nn, n1=None, n2=None):
+def nn2adj_gpu(nn, n1=None, n2=None):
+    if n1 is None:
+        n1 = nn[1].shape[0]
+    if n2 is None:
+        n2 = np.max(nn[1].flatten())
+
+    df = pd.DataFrame(
+        {
+            "i": np.repeat(range(nn[1].shape[0]), nn[1].shape[1]),
+            "j": nn[1].flatten(),
+            "x": nn[0].flatten(),
+        }
+    )
+    adj = sparse.csr_matrix(
+        (np.repeat(1, df.shape[0]), (df["i"], df["j"])), shape=(n1, n2)
+    )
+
+    return adj
+
+
+def nn2adj_cpu(nn, n1=None, n2=None):
     if n1 is None:
         n1 = nn[0].shape[0]
     if n2 is None:
@@ -57,14 +77,15 @@ def build_nn(
         model = NearestNeighbors(n_neighbors=k)
         model.fit(ref)
         knn = model.kneighbors(query)
+        adj = nn2adj_gpu(knn, n1=query.shape[0], n2=ref.shape[0])
     else:
         print(
             "Info: Failed calling cuML. Falling back to neighborhood estimation using CPU with pynndescent."
         )
         index = NNDescent(ref)
         knn = index.query(query, k=k)
+        adj = nn2adj_cpu(knn, n1=query.shape[0], n2=ref.shape[0])
 
-    adj = nn2adj(knn, n1=query.shape[0], n2=ref.shape[0])
     return adj
 
 
@@ -157,7 +178,9 @@ def get_wknn(
     if ref2 is None:
         ref2 = ref
     adj_ref = build_nn(ref=ref2, k=k)
+    print("Info: Computing shared neighbors")
     num_shared_neighbors = adj_q2r @ adj_ref.T
+    print("Info: Computing weighted neighbors")
     num_shared_neighbors_nn = num_shared_neighbors.multiply(adj_knn.T)
 
     wknn = num_shared_neighbors_nn.copy()
