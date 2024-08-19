@@ -143,7 +143,9 @@ class AtlasMapper:
         else:
             raise RuntimeError("This VAE model is currently not supported")
 
-    def _get_latent(self, model, adata, **kwargs):
+    def _get_latent(self, model, adata, key=None, **kwargs):
+        if key is not None and key in adata.obsm.keys():
+            return adata.obsm[key]
         if self.model_type in ["scanvi", "scanvi"]:
             return model.get_latent_representation(adata, **kwargs)
         if self.model_type == "scpoli":
@@ -172,6 +174,8 @@ class AtlasMapper:
         k: int = 100,
         query2ref: bool = True,
         ref2query: bool = False,
+        ref_rep_key: str = "X_latent",
+        query_rep_key: str = "X_latent",
         weighting_scheme: Literal[
             "n", "top_n", "jaccard", "jaccard_square", "gaussian", "dist"
         ] = "jaccard_square",
@@ -188,10 +192,12 @@ class AtlasMapper:
             weighting_scheme: How to weight edges in the ref-query neighbor graph
             top_n: The number of top neighbors to consider
         """
-
+        
         self.ref_adata = ref_adata if ref_adata is not None else self.ref_adata
-        ref_latent = self._get_latent(self.query_model, self.ref_adata)
-        query_latent = self._get_latent(self.query_model, self.query_adata)
+        ref_latent = self._get_latent(self.query_model, self.ref_adata, key=ref_rep_key)
+        query_latent = self._get_latent(
+            self.query_model, self.query_adata, key=query_rep_key
+        )
 
         wknn = get_wknn(
             ref=ref_latent,
