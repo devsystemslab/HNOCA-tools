@@ -19,20 +19,22 @@ warnings.filterwarnings("ignore")
 
 def nn2adj(nn, n1=None, n2=None):
     if n1 is None:
-        n1 = nn[1].shape[0]
+        n1 = nn[0].shape[0]
     if n2 is None:
-        n2 = np.max(nn[1].flatten())
+        n2 = np.max(nn[0].flatten())
 
     df = pd.DataFrame(
         {
-            "i": np.repeat(range(nn[1].shape[0]), nn[1].shape[1]),
-            "j": nn[1].flatten(),
-            "x": nn[0].flatten(),
+            "i": np.repeat(range(nn[0].shape[0]), nn[0].shape[1]),
+            "j": nn[0].flatten(),
+            "x": nn[1].flatten(),
         }
     )
+
     adj = sparse.csr_matrix(
         (np.repeat(1, df.shape[0]), (df["i"], df["j"])), shape=(n1, n2)
     )
+
     return adj
 
 
