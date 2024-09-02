@@ -12,7 +12,7 @@ requirements = [
 
 setup(
     name="hnoca",
-    version="0.1.0",
+    version="0.1.1",
     author=author,
     author_email=author_email,
     description=description,
