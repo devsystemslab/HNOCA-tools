@@ -15,7 +15,6 @@ __pycache__/
 # C extensions
 *.so
 
-
 # Distribution / packaging
 .Python
 build/
@@ -44,3 +43,6 @@ MANIFEST
 docs/notebooks/data/
 site/notebooks/data/
 *.ipynb_checkpoints/
+
+# Rendered documentation
+docs/

@@ -30,6 +30,7 @@ nav:
     - About: index.md
     - HNOCA-tools: quickstart.md
     - ArchMap: archmap.md
+    - Contributing: contributing.md
   - Tutorials:
     - Get started: vignettes/get_started.md
     - HNOCA exploration and mapping: vignettes/exploration.ipynb
