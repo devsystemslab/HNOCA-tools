@@ -1,1 +1,0 @@
-::: hnoca.snapseed.annotate.annotate
