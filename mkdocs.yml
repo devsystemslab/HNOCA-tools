@@ -4,7 +4,7 @@ repo_name: devsystemslab/HNOCA-tools
 site_dir: docs
 docs_dir: site
 watch:
-  - hnoca
+  - src/hnoca
 repo_url: https://github.com/devsystemslab/HNOCA-tools
 repo_name: devsystemslab/HNOCA-tools
 theme:
