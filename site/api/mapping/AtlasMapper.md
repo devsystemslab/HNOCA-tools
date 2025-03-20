@@ -1,4 +1,4 @@
-::: hnoca.map.mapper.AtlasMapper
+::: hnoca.mapping.mapper.AtlasMapper
     options:
         members:
         - __init__
