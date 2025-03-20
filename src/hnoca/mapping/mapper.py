@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import TYPE_CHECKING, Literal
 
@@ -21,7 +23,7 @@ class AtlasMapper:
 
     def __init__(
         self,
-        ref_model: "scvi.model.SCANVI" | "scvi.model.SCVI" | "scarches.models.scpoli.scPoli",
+        ref_model: scvi.model.SCANVI | scvi.model.SCVI | scarches.models.scpoli.scPoli,
     ):
         """
         Initialize the AtlasMapper object
