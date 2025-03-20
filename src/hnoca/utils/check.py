@@ -1,4 +1,7 @@
-r"""Dependency checking"""
+r"""Dependency checking
+
+Adapted from GLUE: https://github.com/gao-lab/GLUE
+"""
 
 import importlib
 import types

@@ -19,12 +19,13 @@ and this project adheres to [Semantic Versioning][].
 - Added the `pymdownx.tabbed` extension to `mkdocs` to display tabs in the docs.
 - Added this Changelog.
 - Added a `codecov.yaml` file, to configure coverage reports.
+- Added a utility class in `utils/check` to check for optional dependencies.
 
 ### Changed
 - The package now uses a `pyproject.toml` file to define the build system (hatch), dependencies, etc.
 - Update the `publish.yaml` workflow in `release.yaml`.
 - Moved code from `hnoca` to `src/hnoca`.
-- Updated dependencies in `pyproject.toml`. Dependencies are now grouped according to this package's main use cases (`snapseed`, `map`, `stats`), to ease installation.
+- Updated dependencies in `pyproject.toml`. Extra dependencies for `maping` and `stats` are optional, to ease installation.
 
 ### Removed
 - Removed the `black` badge from the `README.md`, as we did not automatically check for adherence to black code style.
