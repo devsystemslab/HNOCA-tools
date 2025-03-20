@@ -11,8 +11,8 @@ def test_de(
     group: str | pd.Series,
     covar: str | pd.DataFrame,
     num_threads: int = 1,
-    return_coef_group: str = None,
-    var_names: list = None,
+    return_coef_group: str | None = None,
+    var_names: list | None = None,
     adjust_method: str = "holm",
 ) -> pd.DataFrame:
     """
@@ -71,7 +71,7 @@ def test_de_paired(
     matched_adata: ad.AnnData,
     covar: str | pd.DataFrame | None = None,
     num_threads: int = 1,
-    var_names: list = None,
+    var_names: list | None = None,
     adjust_method: str = "holm",
 ) -> pd.DataFrame:
     """

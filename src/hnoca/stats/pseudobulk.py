@@ -1,6 +1,7 @@
 import anndata as ad
 import numpy as np
-from decoupler import get_pseudobulk
+
+from hnoca.utils import check_deps
 
 
 def create_pseudobulk(
@@ -31,6 +32,9 @@ def create_pseudobulk(
     -------
         AnnData object with pseudobulk data
     """
+    check_deps("decoupler")
+    from decoupler import get_pseudobulk
+
     if layer is not None:
         adata.X = adata.layers[layer].copy()
 
