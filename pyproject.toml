@@ -53,14 +53,13 @@ optional-dependencies.doc = [
 ]
 
 optional-dependencies.mapping = [
-  "scarches>=0.6.1",
-  "scvi-tools>=1.3",
+  "scvi-tools>=1.2",
 ]
 
 optional-dependencies.snapseed = [
-  "jax",
-  "jaxlib>=0.1.75",
-  "numba>=0.56.4",
+  "jax>=0.4",
+  "jaxlib>=0.4",
+  "numba>=0.60",
 ]
 
 optional-dependencies.stats = [
