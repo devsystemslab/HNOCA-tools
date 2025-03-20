@@ -1,0 +1,25 @@
+# PBMC cell types and markers
+T_cell:
+  marker_genes: [CD3D, CD3E]
+  subtypes:
+    CD4_T_cell:
+      marker_genes: [IL7R, CCR7]
+    CD8_T_cell:
+      marker_genes: [CD8A, CD8B]
+
+B_cell:
+  marker_genes: [MS4A1, CD79A]
+
+Monocyte:
+  marker_genes: [CD14, LYZ]
+  subtypes:
+    Classical_monocyte:
+      marker_genes: [CD14, S100A8, S100A9]
+    Non_classical_monocyte:
+      marker_genes: [FCGR3A, MS4A7]
+
+NK_cell:
+  marker_genes: [NCAM1, KLRF1]
+
+Dendritic_cell:
+  marker_genes: [CD1C, FCER1A]
