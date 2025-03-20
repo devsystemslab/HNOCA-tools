@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 from scipy import sparse
 
+from hnoca._logging import logger
+
 
 def prepare_features(query_adata, ref_model):
     """Prepare the features of the query dataset to match the reference dataset."""
@@ -13,8 +15,9 @@ def prepare_features(query_adata, ref_model):
     if len(missing_features) == 0:
         return query_adata
 
-    print(
-        f"Warning: Query dataset is missing {len(missing_features)} features from the reference dataset. Adding missing features as zero-filled columns."
+    logger.warning(
+        "Query dataset is missing %s features from the reference dataset. Adding missing features as zero-filled columns.",
+        len(missing_features),
     )
 
     new_adata = query_adata.copy()

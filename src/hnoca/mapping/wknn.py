@@ -7,6 +7,7 @@ import tqdm
 from pynndescent import NNDescent
 from scipy import sparse
 
+from hnoca._logging import logger
 from hnoca.utils.check import check_deps
 
 
@@ -62,14 +63,14 @@ def build_nn(  # noqa: D103
         check_deps("cuml")
         from cuml.neighbors import NearestNeighbors
 
-        print("Using cuML for neighborhood estimation on GPU.")
+        logger.info("Using cuML for neighborhood estimation on GPU.")
 
         model = NearestNeighbors(n_neighbors=k)
         model.fit(ref)
         knn = model.kneighbors(query)
         adj = nn2adj_gpu(knn, n1=query.shape[0], n2=ref.shape[0])
     else:
-        print("Using pynndescent for neighborhood estimation on CPU.")
+        logger.info("Using pynndescent for neighborhood estimation on CPU.")
         index = NNDescent(ref)
         knn = index.query(query, k=k)
         adj = nn2adj_cpu(knn, n1=query.shape[0], n2=ref.shape[0])
@@ -163,9 +164,9 @@ def get_wknn(
     if ref2 is None:
         ref2 = ref
     adj_ref = build_nn(ref=ref2, k=k)
-    print("Info: Computing shared neighbors")
+    logger.info("Info: Computing shared neighbors")
     num_shared_neighbors = adj_q2r @ adj_ref.T
-    print("Info: Computing weighted neighbors")
+    logger.info("Info: Computing shared neighbors")
     num_shared_neighbors_nn = num_shared_neighbors.multiply(adj_knn.T)
 
     wknn = num_shared_neighbors_nn.copy()
@@ -232,7 +233,7 @@ def estimate_presence_score(  # noqa: D103
         presence_split = [np.array(wknn.sum(axis=0)).flatten()]
 
     if do_random_walk:
-        print("Info: Smoothing presence scores with random walk")
+        logger.info("Info: Smoothing presence scores with random walk")
         presence_split_sm = []
         for x in tqdm.tqdm(presence_split):
             presence_split_sm.append(
