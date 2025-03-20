@@ -1,15 +1,19 @@
 import os
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 import anndata as ad
 import cloudpickle
 import numpy as np
-import scarches
-import scvi
+
+from hnoca.utils import check_deps
 
 from .matching import get_matched_transcriptome
 from .utils import prepare_features
 from .wknn import estimate_presence_score, get_wknn, transfer_labels
+
+if TYPE_CHECKING:
+    import scarches
+    import scvi
 
 
 class AtlasMapper:
@@ -17,7 +21,7 @@ class AtlasMapper:
 
     def __init__(
         self,
-        ref_model: scvi.model.SCANVI | scvi.model.SCVI | scarches.models.scpoli.scPoli,
+        ref_model: "scvi.model.SCANVI" | "scvi.model.SCVI" | "scarches.models.scpoli.scPoli",
     ):
         """
         Initialize the AtlasMapper object
@@ -25,6 +29,16 @@ class AtlasMapper:
         Args:
             ref_model: The reference model to map the query dataset to.
         """
+        # Check optional dependencies
+        check_deps("scvi-tools")
+        check_deps("scarches")
+        # Import and store as attributes so other methods can use them
+        import scarches
+        import scvi  # local import assured by previous check
+
+        self.scvi = scvi
+        self.scarches = scarches
+
         self.model_type = self._check_model_type(ref_model)
         self.ref_model = ref_model
         self.ref_adata = ref_model.adata
@@ -71,8 +85,8 @@ class AtlasMapper:
     def _train_scanvi(self, query_adata, retrain="partial", **kwargs):
         """Train a new scanvi model on the query data."""
         unfrozen = retrain == "full"
-        scvi.model.SCANVI.prepare_query_anndata(query_adata, self.ref_model)
-        vae_q = scvi.model.SCANVI.load_query_data(query_adata, self.ref_model, unfrozen=unfrozen)
+        self.scvi.model.SCANVI.prepare_query_anndata(query_adata, self.ref_model)
+        vae_q = self.scvi.model.SCANVI.load_query_data(query_adata, self.ref_model, unfrozen=unfrozen)
         vae_q.train(**kwargs)
 
         self.query_model = vae_q
@@ -80,8 +94,8 @@ class AtlasMapper:
     def _train_scvi(self, query_adata, retrain="partial", **kwargs):
         """Train a new scvi model on the query data."""
         unfrozen = retrain == "full"
-        scvi.model.SCVI.prepare_query_anndata(query_adata, self.ref_model)
-        vae_q = scvi.model.SCVI.load_query_data(query_adata, self.ref_model, unfrozen=unfrozen)
+        self.scvi.model.SCVI.prepare_query_anndata(query_adata, self.ref_model)
+        vae_q = self.scvi.model.SCVI.load_query_data(query_adata, self.ref_model, unfrozen=unfrozen)
         vae_q.train(**kwargs)
 
         self.query_model = vae_q
@@ -96,7 +110,7 @@ class AtlasMapper:
         if len(missing_cell_types) > 0:
             query_adata.obs[missing_cell_types] = "Unknown"
 
-        vae_q = scarches.models.scPoli.load_query_data(
+        vae_q = self.scarches.models.scPoli.load_query_data(
             query_adata,
             reference_model=self.ref_model,
             unknown_ct_names=["Unknown"],
@@ -108,11 +122,11 @@ class AtlasMapper:
         self.query_model = vae_q
 
     def _check_model_type(self, model):
-        if isinstance(model, scvi.model._scanvi.SCANVI):
+        if isinstance(model, self.scvi.model._scanvi.SCANVI):
             return "scanvi"
-        elif isinstance(model, scvi.model._scvi.SCVI):
+        elif isinstance(model, self.scvi.model._scvi.SCVI):
             return "scvi"
-        elif isinstance(model, scarches.models.scpoli.scPoli):
+        elif isinstance(model, self.scarches.models.scpoli.scPoli):
             return "scpoli"
         else:
             raise RuntimeError("This VAE model is currently not supported")
@@ -145,7 +159,7 @@ class AtlasMapper:
 
     def compute_wknn(
         self,
-        ref_adata: ad.AnnData = None,
+        ref_adata: ad.AnnData | None = None,
         k: int = 100,
         query2ref: bool = True,
         ref2query: bool = False,
@@ -184,7 +198,7 @@ class AtlasMapper:
 
     def get_presence_scores(
         self,
-        split_by: str = None,
+        split_by: str | None = None,
         random_walk: bool = True,
         alpha: float = 0.1,
         n_rounds: int = 100,
