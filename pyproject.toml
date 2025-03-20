@@ -52,7 +52,7 @@ optional-dependencies.doc = [
   "pymdown-extensions",
 ]
 
-optional-dependencies.mapper = [
+optional-dependencies.mapping = [
   "scarches>=0.6.1",
   "scvi-tools>=1.3",
 ]
