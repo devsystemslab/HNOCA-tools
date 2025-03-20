@@ -80,6 +80,7 @@ INSTALL_HINTS = types.SimpleNamespace(
     jax="Please install jax and jaxlib, either directly or via the corresponding hnoca extra: `pip install 'hnoca[snapseed]'`.",
     numba="Please install numba, either directly or via the corresponding hnoca extra: `pip install 'hnoca[snapseed]'`.",
     decoupler="Please install decoupler, either directly or via the corresponding hnoca extra: `pip install 'hnoca[stats]'`.",
+    cuml="Please install cuML from rapids: https://docs.rapids.ai/install/. ",
 )
 
 
@@ -89,6 +90,7 @@ CHECKERS = {
     "jax": ModuleChecker("jax", vmin="0.4", install_hint=INSTALL_HINTS.jax),
     "numba": ModuleChecker("numba", vmin="0.6", install_hint=INSTALL_HINTS.numba),
     "decoupler": ModuleChecker("decoupler", vmin="1.6", install_hint=INSTALL_HINTS.decoupler),
+    "cuml": ModuleChecker("cuml", vmin=None, install_hint=INSTALL_HINTS.cuml),
 }
 
 

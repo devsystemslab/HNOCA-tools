@@ -1,15 +1,13 @@
-import importlib.util
 import warnings
 from typing import Literal
 
 import numpy as np
 import pandas as pd
-import torch
 import tqdm
 from pynndescent import NNDescent
 from scipy import sparse
 
-warnings.filterwarnings("ignore")
+from hnoca.utils.check import check_deps
 
 
 def nn2adj_gpu(nn, n1=None, n2=None):  # noqa: D103
@@ -55,20 +53,23 @@ def build_nn(  # noqa: D103
     k=100,
     weight: Literal["unweighted", "dist", "gaussian_kernel"] = "unweighted",
     sigma=None,
+    use_rapids: bool = False,
 ):
     if query is None:
         query = ref
 
-    if torch.cuda.is_available() and importlib.util.find_spec("cuml"):
-        print("Info: GPU detected and cuml installed. Use cuML for neighborhood estimation.")
+    if use_rapids:
+        check_deps("cuml")
         from cuml.neighbors import NearestNeighbors
+
+        print("Using cuML for neighborhood estimation on GPU.")
 
         model = NearestNeighbors(n_neighbors=k)
         model.fit(ref)
         knn = model.kneighbors(query)
         adj = nn2adj_gpu(knn, n1=query.shape[0], n2=ref.shape[0])
     else:
-        print("Info: Failed calling cuML. Falling back to neighborhood estimation using CPU with pynndescent.")
+        print("Using pynndescent for neighborhood estimation on CPU.")
         index = NNDescent(ref)
         knn = index.query(query, k=k)
         adj = nn2adj_cpu(knn, n1=query.shape[0], n2=ref.shape[0])
