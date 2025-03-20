@@ -29,8 +29,11 @@ classifiers = [
 dependencies = [
   "anndata>=0.10",
   "cloudpickle>=3",
+  "jax>=0.4",
+  "jaxlib>=0.4",
   "joblib>=1.4",
   "matplotlib>=3.10",
+  "numba>=0.58",
   "numpy>=1.26.4",
   "pandas>=2",
   "scanpy>=1.11",
@@ -55,12 +58,6 @@ optional-dependencies.doc = [
 optional-dependencies.mapping = [
   "scarches>=0.6.1",
   "scvi-tools>=1.2",
-]
-
-optional-dependencies.snapseed = [
-  "jax>=0.4",
-  "jaxlib>=0.4",
-  "numba>=0.60",
 ]
 
 optional-dependencies.stats = [

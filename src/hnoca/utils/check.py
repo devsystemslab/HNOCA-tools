@@ -77,8 +77,6 @@ class ModuleChecker(Checker):
 INSTALL_HINTS = types.SimpleNamespace(
     scvi="Please install scvi-tools, either directly or via the corresponding hnoca extra: `pip install 'hnoca[mapping]'`.",
     scarches="Please install scarches, either directly or via the corresponding hnoca extra: `pip install 'hnoca[mapping]'`.",
-    jax="Please install jax and jaxlib, either directly or via the corresponding hnoca extra: `pip install 'hnoca[snapseed]'`.",
-    numba="Please install numba, either directly or via the corresponding hnoca extra: `pip install 'hnoca[snapseed]'`.",
     decoupler="Please install decoupler, either directly or via the corresponding hnoca extra: `pip install 'hnoca[stats]'`.",
     cuml="Please install cuML from rapids: https://docs.rapids.ai/install/. ",
 )
@@ -87,8 +85,6 @@ INSTALL_HINTS = types.SimpleNamespace(
 CHECKERS = {
     "scvi-tools": ModuleChecker("scvi-tools", vmin="1.2", install_hint=INSTALL_HINTS.scvi),
     "scarches": ModuleChecker("scarches", vmin="0.6.1", install_hint=INSTALL_HINTS.scarches),
-    "jax": ModuleChecker("jax", vmin="0.4", install_hint=INSTALL_HINTS.jax),
-    "numba": ModuleChecker("numba", vmin="0.6", install_hint=INSTALL_HINTS.numba),
     "decoupler": ModuleChecker("decoupler", vmin="1.6", install_hint=INSTALL_HINTS.decoupler),
     "cuml": ModuleChecker("cuml", vmin=None, install_hint=INSTALL_HINTS.cuml),
 }
