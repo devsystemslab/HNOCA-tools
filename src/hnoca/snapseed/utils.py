@@ -105,3 +105,29 @@ def matrix_to_long_df(x, features, groups):
     df = df.stack().reset_index()
     df.columns = ["group", "feature", "value"]
     return df
+
+
+def marker_dict_depth(marker_hierarchy: dict) -> int:
+    """
+    Recursively compute the depth of a marker hierarchy dictionary.
+
+    A marker hierarchy with no subtypes has a depth of 1.
+
+    Args:
+        marker_hierarchy: A dictionary where each key is a cell type and its value is
+            a dict that must contain a 'marker_genes' key and can optionally contain a
+            'subtypes' key (which is another marker hierarchy dict).
+
+    Returns
+    -------
+        int: The maximum depth of the hierarchy.
+    """
+    max_depth = 0
+    for _cell_type, data in marker_hierarchy.items():
+        # Start with current level
+        depth = 1
+        # If there are subtypes, add their depth recursively
+        if "subtypes" in data and isinstance(data["subtypes"], dict):
+            depth += marker_dict_depth(data["subtypes"])
+        max_depth = max(max_depth, depth)
+    return max_depth

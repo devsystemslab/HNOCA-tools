@@ -1,5 +1,6 @@
 import anndata as ad
 import pandas as pd
+import scanpy as sc
 
 from .auroc import annotate_snap
 from .utils import get_annot_df, get_markers
@@ -29,7 +30,7 @@ def annotate_hierarchy(
         Dict with assignments and metrics
     """
     # Annotate at each level of the hierarchy
-    assignment_hierarchy = annotate_levels(adata, marker_hierarchy, group_name, **kwargs)
+    assignment_hierarchy = annotate_levels(adata, marker_hierarchy, group_name, layer=layer, **kwargs)
 
     return {
         "assignments": get_annot_df(assignment_hierarchy, group_name, min_expr=min_expr),
@@ -37,10 +38,20 @@ def annotate_hierarchy(
     }
 
 
-def annotate_levels(adata, marker_hierarchy, group_name, level=0, assignment_levels=None, layer=None, **kwargs):
+def annotate_levels(
+    adata: sc.AnnData,
+    marker_hierarchy: dict,
+    group_name: str,
+    level: int = 0,
+    assignment_levels: dict | None = None,
+    layer: str | None = None,
+    **kwargs,
+):
     """Recursively annotatates all levels of a marker hierarchy."""
     level += 1
     level_name = "level_" + str(level)
+
+    # get top level marker genes
     marker_dict = get_markers(marker_hierarchy)
     assignments = annotate(adata, marker_dict, group_name, layer=layer, **kwargs)
 
@@ -89,6 +100,7 @@ def annotate(adata: ad.AnnData, marker_dict: dict, group_name: str, layer: str |
         pd.DataFrame with assignments
     """
     assignments = annotate_snap(adata, marker_dict, group_name, layer=layer, **kwargs)
+
     # Join cluster-level results with adata
     assignments = assignments.reset_index(names=group_name)
     return assignments
