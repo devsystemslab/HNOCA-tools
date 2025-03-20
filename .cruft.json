@@ -1,31 +1,31 @@
 {
-  "template": "https://github.com/scverse/cookiecutter-scverse",
-  "commit": "83d178f1d000c547cc772368f82568bb72735d39",
-  "checkout": null,
-  "context": {
-    "cookiecutter": {
-      "project_name": "hnoca",
-      "package_name": "hnoca",
-      "project_description": "Human Neural Organoid Cell Atlas Toolbox",
-      "author_full_name": "Marius Lange",
-      "author_email": "marius.lange@bsse.ethz.ch",
-      "github_user": "devsystemslab",
-      "github_repo": "HNOCA-tools",
-      "license": "MIT License",
-      "ide_integration": true,
-      "_copy_without_render": [
-        ".github/workflows/build.yaml",
-        ".github/workflows/test.yaml",
-        "docs/_templates/autosummary/**.rst"
-      ],
-      "_render_devdocs": false,
-      "_jinja2_env_vars": {
-        "lstrip_blocks": true,
-        "trim_blocks": true
-      },
-      "_template": "https://github.com/scverse/cookiecutter-scverse",
-      "_commit": "83d178f1d000c547cc772368f82568bb72735d39"
-    }
-  },
-  "directory": null
+    "template": "https://github.com/scverse/cookiecutter-scverse",
+    "commit": "83d178f1d000c547cc772368f82568bb72735d39",
+    "checkout": null,
+    "context": {
+        "cookiecutter": {
+            "project_name": "hnoca",
+            "package_name": "hnoca",
+            "project_description": "Human Neural Organoid Cell Atlas Toolbox",
+            "author_full_name": "Marius Lange",
+            "author_email": "marius.lange@bsse.ethz.ch",
+            "github_user": "devsystemslab",
+            "github_repo": "HNOCA-tools",
+            "license": "GPLv3",
+            "ide_integration": true,
+            "_copy_without_render": [
+                ".github/workflows/build.yaml",
+                ".github/workflows/test.yaml",
+                "docs/_templates/autosummary/**.rst"
+            ],
+            "_render_devdocs": false,
+            "_jinja2_env_vars": {
+                "lstrip_blocks": true,
+                "trim_blocks": true
+            },
+            "_template": "https://github.com/scverse/cookiecutter-scverse",
+            "_commit": "83d178f1d000c547cc772368f82568bb72735d39"
+        }
+    },
+    "directory": null
 }
