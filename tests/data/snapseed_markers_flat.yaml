@@ -1,15 +1,10 @@
 # PBMC cell types and markers
-T_cell:
-  marker_genes: [CD3D, CD3E]
+T_cell: [CD3D, CD3E]
 
-B_cell:
-  marker_genes: [MS4A1, CD79A]
+B_cell: [MS4A1, CD79A]
 
-Monocyte:
-  marker_genes: [CD14, LYZ]
+Monocyte: [CD14, LYZ]
 
-NK_cell:
-  marker_genes: [NCAM1, KLRF1]
+NK_cell: [NCAM1, KLRF1]
 
-Dendritic_cell:
-  marker_genes: [CD1C, FCER1A]
+Dendritic_cell: [CD1C, FCER1A]
