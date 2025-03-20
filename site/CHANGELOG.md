@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning][].
 - Added this Changelog.
 - Added a `codecov.yaml` file, to configure coverage reports.
 - Added a utility class in `utils/check` to check for optional dependencies.
+- Added a basic logger.
 
 ### Changed
 - The package now uses a `pyproject.toml` file to define the build system (hatch), dependencies, etc.
