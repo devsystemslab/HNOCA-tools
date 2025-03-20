@@ -44,7 +44,7 @@ For reference mapping, we mostly rely on [scPoli](https://docs.scarches.org/en/l
 
 ```python
 import scvi
-import hnoca.map as mapping
+import hnoca.mapping as mapping
 
 # Load the reference model
 ref_model = scvi.model.SCANVI.load(
