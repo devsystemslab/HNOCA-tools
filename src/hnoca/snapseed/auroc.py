@@ -173,17 +173,3 @@ def expr_auroc_over_groups(
             frac_nz_out[group, :] = np.array(fracnz_fun(expr[groups != group, :]))
 
     return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
-    return auroc, frac_nz, frac_nz_out
