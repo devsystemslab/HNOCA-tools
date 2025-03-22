@@ -28,7 +28,7 @@ def adata_annotate():
     adata = sc.datasets.pbmc3k()
 
     # basic cell and gene filtering
-    sc.pp.filter_cells(adata, min_genes=100)
+    sc.pp.filter_cells(adata, min_genes=200)
     sc.pp.filter_genes(adata, min_cells=3)
 
     # Saving count data
@@ -47,6 +47,6 @@ def adata_annotate():
 
     # k-NN and leiden clustering
     sc.pp.neighbors(adata)
-    sc.tl.leiden(adata, flavor="igraph", n_iterations=2)
+    sc.tl.leiden(adata, flavor="igraph", n_iterations=2, resolution=5)
 
     return adata
