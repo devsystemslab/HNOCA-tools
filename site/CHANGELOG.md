@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning][].
 - Added a `codecov.yaml` file, to configure coverage reports.
 - Added a utility class in `utils/check` to check for optional dependencies.
 - Added a basic logger.
+- Added a check for snapseed to make sure that the marker dict has the right depth for annotate vs annotate_hierarchy.
+- Added tests for snapseed.
 
 ### Changed
 - The package now uses a `pyproject.toml` file to define the build system (hatch), dependencies, etc.
