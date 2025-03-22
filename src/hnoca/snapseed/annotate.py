@@ -3,7 +3,7 @@ import pandas as pd
 import scanpy as sc
 
 from .auroc import annotate_snap
-from .utils import get_annot_df, get_markers
+from .utils import get_annot_df, get_markers, marker_dict_depth
 
 
 def annotate_hierarchy(
@@ -29,6 +29,9 @@ def annotate_hierarchy(
     -------
         Dict with assignments and metrics
     """
+    if marker_dict_depth(marker_hierarchy) == 1:
+        raise ValueError("You passed a non-hierachical marker dict to annotate_hierarchy(). Use annotate() instead.")
+
     # Annotate at each level of the hierarchy
     assignment_hierarchy = annotate_levels(adata, marker_hierarchy, group_name, layer=layer, **kwargs)
 
@@ -99,6 +102,11 @@ def annotate(adata: ad.AnnData, marker_dict: dict, group_name: str, layer: str |
     -------
         pd.DataFrame with assignments
     """
+    if marker_dict_depth(marker_dict) > 1:
+        raise ValueError(
+            f"You passed a dict with {marker_dict_depth(marker_dict)} hierachical levels. Use annotate_hierarchy() instead."
+        )
+
     assignments = annotate_snap(adata, marker_dict, group_name, layer=layer, **kwargs)
 
     # Join cluster-level results with adata
