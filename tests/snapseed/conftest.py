@@ -1,5 +1,6 @@
 from importlib.resources import files
 
+import pandas as pd
 import pytest
 import scanpy as sc
 import yaml
@@ -50,3 +51,23 @@ def adata_annotate():
     sc.tl.leiden(adata, flavor="igraph", n_iterations=2, resolution=5)
 
     return adata
+
+
+# Ground-truth Series fixtures
+@pytest.fixture
+def expected_snap_class():
+    return pd.Series([348, 713, 141, 1498], index=["B_cell", "Monocyte", "NK_cell", "T_cell"], name="snap_class")
+
+
+@pytest.fixture
+def expected_snap_level_1():
+    return pd.Series([348, 713, 141, 1498], index=["B_cell", "Monocyte", "NK_cell", "T_cell"], name="snap_level_1")
+
+
+@pytest.fixture
+def expected_snap_level_2():
+    return pd.Series(
+        [1322, 176, 542, 171],
+        index=["CD4_T_cell", "CD8_T_cell", "Classical_monocyte", "Non_classical_monocyte"],
+        name="snap_level_2",
+    )

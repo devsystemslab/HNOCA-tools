@@ -47,20 +47,16 @@ def test_annotate_invalid_depth(request, adata_annotate, marker_fixture):
         annotate(adata_annotate, markers, group_name="leiden")
 
 
-def test_annotate(adata_annotate, marker_h1):
+def test_annotate(adata_annotate, marker_h1, expected_snap_class):
     """Test that annotate works with a non-hierarchical marker dict."""
     ann_df = annotate(adata_annotate, marker_h1, group_name="leiden")
     mapping = ann_df.set_index("leiden")["class"].to_dict()
     adata_annotate.obs["snap_class"] = adata_annotate.obs["leiden"].map(mapping)
 
-    expected_counts = pd.Series(
-        [348, 713, 141, 1498], index=["B_cell", "Monocyte", "NK_cell", "T_cell"], name="snap_class"
-    )
-
-    assert_annotation_counts(adata_annotate, "snap_class", expected_counts, "snap_class counts")
+    assert_annotation_counts(adata_annotate, "snap_class", expected_snap_class, "snap_class counts")
 
 
-def test_annotate_hierarchy(adata_annotate, marker_h2):
+def test_annotate_hierarchy(adata_annotate, marker_h2, expected_snap_level_1, expected_snap_level_2):
     """Test that annotate_hierarchy works with a hierarchical marker dict."""
     ann_dict = annotate_hierarchy(adata_annotate, marker_h2, group_name="leiden")
     ann_df = ann_dict["assignments"]
@@ -69,14 +65,5 @@ def test_annotate_hierarchy(adata_annotate, marker_h2):
     for key in ann_df:
         adata_annotate.obs[f"snap_{key}"] = adata_annotate.obs["leiden"].map(ann_df[key].to_dict())
 
-    expected_level1 = pd.Series(
-        [348, 713, 141, 1498], index=["B_cell", "Monocyte", "NK_cell", "T_cell"], name="snap_level_1"
-    )
-    assert_annotation_counts(adata_annotate, "snap_level_1", expected_level1, "snap_level_1 counts")
-
-    expected_level2 = pd.Series(
-        [1322, 176, 542, 171],
-        index=["CD4_T_cell", "CD8_T_cell", "Classical_monocyte", "Non_classical_monocyte"],
-        name="snap_level_2",
-    )
-    assert_annotation_counts(adata_annotate, "snap_level_2", expected_level2, "snap_level_2 counts")
+    assert_annotation_counts(adata_annotate, "snap_level_1", expected_snap_level_1, "snap_level_1 counts")
+    assert_annotation_counts(adata_annotate, "snap_level_2", expected_snap_level_2, "snap_level_2 counts")
