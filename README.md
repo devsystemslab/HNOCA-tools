@@ -3,11 +3,14 @@
 [![Pre-commit.ci][badge-pre-commit]][pre-commit]
 [![PyPI][badge-pypi]][pypi]
 [![Docs Build][badge-docs]][docs]
+[![Downloads][badge-downloads]][downloads]
+
 
 [badge-tests]: https://github.com/devsystemslab/hnoca-tools/actions/workflows/test.yaml/badge.svg
 [badge-pre-commit]: https://results.pre-commit.ci/badge/github/devsystemslab/hnoca-tools/main.svg
 [badge-pypi]: https://img.shields.io/pypi/v/hnoca.svg
 [badge-docs]: https://github.com/devsystemslab/hnoca-tools/actions/workflows/build-site.yaml/badge.svg
+[badge-downloads]: https://static.pepy.tech/badge/hnoca
 
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
@@ -125,3 +128,4 @@ de_df = stats.test_de_paired(
 [pre-commit]: https://results.pre-commit.ci/latest/github/devsystemslab/hnoca-tools/main
 [pypi]: https://pypi.org/project/hnoca/
 [docs]: https://devsystemslab.github.io/HNOCA-tools/
+[downloads]: https://pepy.tech/project/hnoca
