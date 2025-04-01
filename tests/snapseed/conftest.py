@@ -48,7 +48,7 @@ def adata_annotate():
 
     # k-NN and leiden clustering
     sc.pp.neighbors(adata)
-    sc.tl.leiden(adata, flavor="igraph", n_iterations=2, resolution=5)
+    sc.tl.leiden(adata, flavor="igraph", n_iterations=2, resolution=5, random_state=0, directed=False)
 
     return adata
 
