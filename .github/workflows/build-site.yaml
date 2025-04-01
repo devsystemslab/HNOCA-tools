@@ -1,9 +1,9 @@
 name: build-website
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 permissions:
   contents: write
 jobs:
@@ -25,6 +25,6 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mknotebooks 'mkdocstrings[crystal,python]'
+      - run: pip install -e ".[doc]"
       - run: mkdocs build
       - run: mkdocs gh-deploy --force
