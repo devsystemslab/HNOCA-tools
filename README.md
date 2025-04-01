@@ -1,5 +1,10 @@
-[![PyPI version](https://badge.fury.io/py/hnoca.svg)](https://badge.fury.io/py/hnoca)
-[![Python version](https://shields.io/badge/python-3.9%20%7C%203.10%20-blue)]()
+
+[![Tests][badge-tests]][tests]
+[![PyPI][badge-pypi]][pypi]
+
+
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/devsystemslab/hnoca-tools/test.yaml?branch=main
+[badge-pypi]: https://img.shields.io/pypi/v/hnoca.svg
 
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
@@ -112,3 +117,6 @@ de_df = stats.test_de_paired(
     adjust_method="holm",
 )
 ```
+
+[tests]: https://github.com/devsystemslab/hnoca-tools/actions/workflows/test.yaml
+[pypi]: https://pypi.org/project/cell-annotator/
