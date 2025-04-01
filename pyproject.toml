@@ -49,6 +49,7 @@ optional-dependencies.dev = [
 ]
 
 optional-dependencies.doc = [
+  "mkdocs-macros-plugin",
   "mkdocs-material",
   "mkdocstrings[python]",
   "mknotebooks",

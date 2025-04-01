@@ -21,6 +21,8 @@ theme:
     accent: orange
 extra_css:
   - stylesheets/extra.css
+extra:
+  pr_url: https://github.com/devsystemslab/HNOCA-tools/pull/
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
@@ -71,3 +73,4 @@ plugins:
   - mknotebooks:
       enable_default_jupyter_cell_styling: false
       enable_default_pandas_dataframe_styling: false
+  - macros
