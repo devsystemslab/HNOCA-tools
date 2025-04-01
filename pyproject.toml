@@ -68,6 +68,8 @@ optional-dependencies.test = [
   "coverage",
   "igraph>=0.11",
   "pytest",
+  "pyyaml",
+  "rich",
 ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
