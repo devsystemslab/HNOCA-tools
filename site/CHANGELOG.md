@@ -23,12 +23,18 @@ and this project adheres to [Semantic Versioning][].
 - Added a basic logger.
 - Added a check for snapseed to make sure that the marker dict has the right depth for annotate vs annotate_hierarchy.
 - Added tests for snapseed.
+- Set up pre-commit.ci
+
+### Fixed
+- Fixed snapseed tests by reading leiden clustering from file.
 
 ### Changed
 - The package now uses a `pyproject.toml` file to define the build system (hatch), dependencies, etc.
 - Update the `publish.yaml` workflow in `release.yaml`.
 - Moved code from `hnoca` to `src/hnoca`.
 - Updated dependencies in `pyproject.toml`. Extra dependencies for `maping` and `stats` are optional, to ease installation.
+- Use vcs-based versioning with [hatch-vcs](https://pypi.org/project/hatch-vcs/)
+- Update the `build-site.yaml` workflow to run on PRs, and add package installation in the workflow using the `doc` option.
 
 ### Removed
 - Removed the `black` badge from the `README.md`, as we did not automatically check for adherence to black code style.
