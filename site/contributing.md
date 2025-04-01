@@ -116,8 +116,7 @@ gives you time to fix the issue or reach out to the developers of the dependency
 
 ### Updating the version number
 
-Before making a release, you need to update the version number in the `pyproject.toml` file.
-Please adhere to [Semantic Versioning][semver]. In brief:
+Version numbers in `pyproject.toml` are inferred automatically from git tags. Please adhere to [Semantic Versioning][semver]. In brief:
 
 > Given a version number MAJOR.MINOR.PATCH, increment the:
 >

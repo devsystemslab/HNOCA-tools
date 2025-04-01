@@ -1,10 +1,9 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = [ "hatchling" ]
+requires = [ "hatch-vcs", "hatchling" ]
 
 [project]
 name = "hnoca"
-version = "0.1.1"
 description = "Human Neural Organoid Cell Atlas Toolbox"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -26,6 +25,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "anndata>=0.10",
   "cloudpickle>=3",
@@ -75,6 +75,9 @@ optional-dependencies.test = [
 urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
 urls.Homepage = "https://github.com/devsystemslab/HNOCA-tools"
 urls.Source = "https://github.com/devsystemslab/HNOCA-tools"
+
+[tool.hatch.version]
+source = "vcs"
 
 [tool.hatch.envs.default]
 installer = "uv"
