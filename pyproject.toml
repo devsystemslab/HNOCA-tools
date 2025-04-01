@@ -66,6 +66,7 @@ optional-dependencies.stats = [
 
 optional-dependencies.test = [
   "coverage",
+  "igraph>=0.11",
   "pytest",
 ]
 # https://docs.pypi.org/project_metadata/#project-urls
