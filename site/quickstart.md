@@ -19,7 +19,7 @@ pip install hnoca
 
 ## Quick overview
 
-### 🖋️ Annotation 
+### 🖋️ Annotation
 
 We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate the HNOCA. It annotates cells based on manually defined sets of marker genes for individual cell types or cell type hierarchies. It is fast (i.e. GPU-accelerated) and simple to enable annotation of very large datasets.
 
@@ -106,4 +106,3 @@ de_df = stats.test_de_paired(
     adjust_method="holm",
 )
 ```
-

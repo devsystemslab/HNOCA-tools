@@ -3,8 +3,8 @@ site_name: HNOCA
 repo_name: devsystemslab/HNOCA-tools
 site_dir: docs
 docs_dir: site
-watch: 
-  - hnoca
+watch:
+  - src/hnoca
 repo_url: https://github.com/devsystemslab/HNOCA-tools
 repo_name: devsystemslab/HNOCA-tools
 theme:
@@ -25,11 +25,16 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
 nav:
   - Home:
     - About: index.md
     - HNOCA-tools: quickstart.md
     - ArchMap: archmap.md
+    - Contributing: contributing.md
+    - Changelog: CHANGELOG.md
   - Tutorials:
     - Get started: vignettes/get_started.md
     - HNOCA exploration and mapping: vignettes/exploration.ipynb
@@ -37,8 +42,8 @@ nav:
     - Mapping to the HNOCA: vignettes/atlas_mapping.ipynb
     - Primary reference mapping: vignettes/reference_mapping.ipynb
   - API Reference:
-      - map:
-        - AtlasMapper: api/map/AtlasMapper.md
+      - mapping:
+        - AtlasMapper: api/mapping/AtlasMapper.md
       - snapseed:
         - annotate: api/snapseed/annotate.md
         - annotate_hierarchy: api/snapseed/annotate_hierarchy.md

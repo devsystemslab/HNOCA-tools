@@ -1,0 +1,10 @@
+# PBMC cell types and markers
+T_cell: [CD3D, CD3E]
+
+B_cell: [MS4A1, CD79A]
+
+Monocyte: [CD14, LYZ]
+
+NK_cell: [NCAM1, KLRF1]
+
+Dendritic_cell: [CD1C, FCER1A]

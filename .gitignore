@@ -1,11 +1,19 @@
-# Notebooks
-docs/notebooks/data/
-site/notebooks/data/
-*.ipynb_checkpoints/
-
-# Hidden
+# Temp files
+.DS_Store
+*~
+buck-out/
 .DS_Store
 .remote-sync.json
+
+# Compiled files
+.venv/
+__pycache__/
+.*cache/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
 
 # Distribution / packaging
 .Python
@@ -27,10 +35,14 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Tests and coverage
+/data/
+/node_modules/
 
-# C extensions
-*.so
+# Notebooks
+docs/notebooks/data/
+site/notebooks/data/
+*.ipynb_checkpoints/
+
+# Rendered documentation
+docs/

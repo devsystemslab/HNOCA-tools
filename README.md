@@ -1,6 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/hnoca.svg)](https://badge.fury.io/py/hnoca)
 [![Python version](https://shields.io/badge/python-3.9%20%7C%203.10%20-blue)]()
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Human Neural Organoid Cell Atlas Toolbox
 #### 🛠️ The Swiss Army Knive of the Single Cell Cartographer
@@ -26,7 +25,7 @@ pip install hnoca
 
 ## Quick start
 
-### 🖋️ Annotation 
+### 🖋️ Annotation
 
 We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate the HNOCA. It annotates cells based on manually defined sets of marker genes for individual cell types or cell type hierarchies. It is fast (i.e. GPU-accelerated) and simple to enable annotation of very large datasets.
 
@@ -113,4 +112,3 @@ de_df = stats.test_de_paired(
     adjust_method="holm",
 )
 ```
-

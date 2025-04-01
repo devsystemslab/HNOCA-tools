@@ -1,4 +1,5 @@
-.md-header__button.md-logo img, .md-header__button.md-logo svg {
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
     display: block;
     width: 3rem;
     height: 3rem;
@@ -15,9 +16,9 @@
     font-size: 1.8rem;
     line-height: 2.4rem;
     font-weight: normal;
-    color: #515A5A;
+    color: #515a5a;
 }
 
 .md-content__button {
-  display: none;
+    display: none;
 }

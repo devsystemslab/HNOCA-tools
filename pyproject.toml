@@ -1,0 +1,155 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
+[project]
+name = "hnoca"
+version = "0.1.1"
+description = "Human Neural Organoid Cell Atlas Toolbox"
+readme = "README.md"
+license = { file = "LICENSE" }
+maintainers = [
+  { name = "Jonas Simon Fleck", email = "jonas_simon.fleck@roche.com" },
+  { name = "Zhisong He", email = "zhisong.he@bsse.ethz.ch" },
+  { name = "Leander Dony", email = "leander.dony@helmholtz-munich.de" },
+]
+authors = [
+  { name = "Jonas Simon Fleck" },
+  { name = "Zhisong He" },
+  { name = "Leander Dony" },
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "anndata>=0.10",
+  "cloudpickle>=3",
+  "jax>=0.4",
+  "jaxlib>=0.4",
+  "joblib>=1.4",
+  "matplotlib>=3.10",
+  "numba>=0.58",
+  "numpy>=1.26.4",
+  "pandas>=2",
+  "scanpy>=1.11",
+  "scikit-learn>=1.1.3",
+  "scipy>=1.15",
+  # for debug logging (referenced from the issue template)
+  "session-info2",
+  "statsmodels>=0.14.2",
+]
+optional-dependencies.dev = [
+  "pre-commit",
+  "twine>=4.0.2",
+]
+
+optional-dependencies.doc = [
+  "mkdocs-material",
+  "mkdocstrings[python]",
+  "mknotebooks",
+  "pymdown-extensions",
+]
+
+optional-dependencies.mapping = [
+  "scarches>=0.6.1",
+  "scvi-tools>=1.2",
+]
+
+optional-dependencies.stats = [
+  "decoupler>=1.6",
+]
+
+optional-dependencies.test = [
+  "coverage",
+  "igraph>=0.11",
+  "pytest",
+  "pyyaml",
+  "rich",
+]
+# https://docs.pypi.org/project_metadata/#project-urls
+urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
+urls.Homepage = "https://github.com/devsystemslab/HNOCA-tools"
+urls.Source = "https://github.com/devsystemslab/HNOCA-tools"
+
+[tool.hatch.envs.default]
+installer = "uv"
+features = [ "dev" ]
+
+[tool.hatch.envs.hatch-test]
+features = [ "test" ]
+
+[tool.hatch.envs.docs]
+features = [ "doc" ]
+scripts.build = "mkdocs build {args}"
+scripts.serve = "mkdocs serve {args}"
+scripts.clean = "rm -rf docs/*"
+
+[tool.ruff]
+line-length = 120
+src = [ "src" ]
+extend-include = [ "*.ipynb" ]
+
+format.docstring-code-format = true
+
+lint.select = [
+  "B",      # flake8-bugbear
+  "BLE",    # flake8-blind-except
+  "C4",     # flake8-comprehensions
+  "D",      # pydocstyle
+  "E",      # Error detected by Pycodestyle
+  "F",      # Errors detected by Pyflakes
+  "I",      # isort
+  "RUF100", # Report unused noqa directives
+  "TID",    # flake8-tidy-imports
+  "UP",     # pyupgrade
+  "W",      # Warning detected by Pycodestyle
+]
+lint.ignore = [
+  "B008", # Errors from function calls in argument defaults. These are fine when the result is immutable.
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D105", # __magic__ methods are often self-explanatory, allow missing docstrings
+  "D107", # Missing docstring in __init__
+  # Disable one in each pair of mutually incompatible rules
+  "D203", # We don’t want a blank line before a class docstring
+  "D213", # <> We want docstrings to start immediately after the opening triple quote
+  "D400", # first line should end with a period [Bug: doesn’t work with single-line docstrings]
+  "D401", # First line should be in imperative mood; try rephrasing
+  "E501", # line too long -> we accept long comment lines; formatter gets rid of long code lines
+  "E731", # Do not assign a lambda expression, use a def -> lambda expression assignments are convenient
+  "E741", # allow I, O, l as variable names -> I is the identity matrix
+]
+lint.per-file-ignores."*/__init__.py" = [ "F401" ]
+lint.per-file-ignores."docs/*" = [ "I" ]
+lint.per-file-ignores."tests/*" = [ "D" ]
+lint.pydocstyle.convention = "numpy"
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+xfail_strict = true
+addopts = [
+  "--import-mode=importlib", # allow using test files with same name
+]
+
+[tool.coverage.run]
+source = [ "hnoca" ]
+omit = [
+  "**/test_*.py",
+]
+
+[tool.cruft]
+skip = [
+  "tests",
+  "src/**/__init__.py",
+  "src/**/basic.py",
+  "docs/api.md",
+  "docs/changelog.md",
+  "docs/references.bib",
+  "docs/references.md",
+  "docs/notebooks/example.ipynb",
+]

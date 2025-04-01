@@ -10,7 +10,7 @@ The HNOCA-tools provides a set of tools we used to generate and analyze the Huma
 
 Here is a quick start guide to the basic functions. More detailed vignettes will be available soon.
 
-### 🖋️ Annotation 
+### 🖋️ Annotation
 
 We developed [snapseed](https://github.com/devsystemslab/snapseed) to rapidly annotate the HNOCA. It annotates cells based on manually defined sets of marker genes for individual cell types or cell type hierarchies. It is fast (i.e. GPU-accelerated) and simple to enable annotation of very large datasets.
 
@@ -44,7 +44,7 @@ For reference mapping, we mostly rely on [scPoli](https://docs.scarches.org/en/l
 
 ```python
 import scvi
-import hnoca.map as mapping
+import hnoca.mapping as mapping
 
 # Load the reference model
 ref_model = scvi.model.SCANVI.load(
@@ -97,4 +97,3 @@ de_df = stats.test_de_paired(
     adjust_method="holm",
 )
 ```
-
