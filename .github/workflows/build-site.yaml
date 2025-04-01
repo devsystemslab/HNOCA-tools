@@ -1,9 +1,9 @@
 name: build-website
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 permissions:
   contents: write
 jobs:
