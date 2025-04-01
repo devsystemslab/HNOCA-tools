@@ -25,7 +25,16 @@ def marker_h3():
 
 
 @pytest.fixture
-def adata_annotate():
+def precomputed_leiden():
+    """Fixture to load precomputed leiden clustering."""
+    data_path = files("tests.data") / "precomputed_leiden.csv"
+    leiden_cl = pd.read_csv(str(data_path), index_col=0)["leiden"]
+
+    return leiden_cl
+
+
+@pytest.fixture
+def adata_annotate(precomputed_leiden):
     adata = sc.datasets.pbmc3k()
 
     # basic cell and gene filtering
@@ -46,9 +55,8 @@ def adata_annotate():
     # PCA
     sc.tl.pca(adata, mask_var="highly_variable")
 
-    # k-NN and leiden clustering
-    sc.pp.neighbors(adata)
-    sc.tl.leiden(adata, flavor="igraph", n_iterations=2, resolution=5, random_state=0, directed=False)
+    # Load precomputed leiden clustering
+    adata.obs["leiden"] = precomputed_leiden.astype("str").astype("category")
 
     return adata
 
