@@ -1,9 +1,11 @@
 
 [![Tests][badge-tests]][tests]
+[![Pre-commit.ci][badge-pre-commit]][pre-commit]
 [![PyPI][badge-pypi]][pypi]
 
 
 [badge-tests]: https://img.shields.io/github/actions/workflow/status/devsystemslab/hnoca-tools/test.yaml?branch=main
+[badge-pre-commit]: https://results.pre-commit.ci/badge/github/devsystemslab/hnoca-tools/main.svg
 [badge-pypi]: https://img.shields.io/pypi/v/hnoca.svg
 
 # Human Neural Organoid Cell Atlas Toolbox
@@ -119,4 +121,5 @@ de_df = stats.test_de_paired(
 ```
 
 [tests]: https://github.com/devsystemslab/hnoca-tools/actions/workflows/test.yaml
-[pypi]: https://pypi.org/project/cell-annotator/
+[pre-commit]: https://results.pre-commit.ci/latest/github/devsystemslab/hnoca-tools/main
+[pypi]: https://pypi.org/project/hnoca/
