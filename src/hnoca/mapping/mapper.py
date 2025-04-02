@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Literal
 import anndata as ad
 import cloudpickle
 import numpy as np
+import scanpy as sc
 
 from hnoca.utils import check_deps
 
@@ -93,7 +94,7 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
-    def _train_scvi(self, query_adata, retrain="partial", **kwargs):
+    def _train_scvi(self, query_adata: sc.AnnData, retrain: str = "partial", **kwargs):
         """Train a new scvi model on the query data."""
         unfrozen = retrain == "full"
         self.scvi.model.SCVI.prepare_query_anndata(query_adata, self.ref_model)
@@ -102,7 +103,7 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
-    def _train_scpoli(self, query_adata, retrain="partial", labeled_indices=None, **kwargs):
+    def _train_scpoli(self, query_adata: sc.AnnData, retrain: str = "partial", labeled_indices=None, **kwargs):
         """Train a new scpoli model on the query data"""
         freeze = retrain != "full"  # noqa F841
         labeled_indices = [] if labeled_indices is None else labeled_indices

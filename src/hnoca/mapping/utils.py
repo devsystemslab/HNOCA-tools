@@ -1,12 +1,13 @@
 import anndata as ad
 import numpy as np
 import pandas as pd
+import scanpy as sc
 from scipy import sparse
 
 from hnoca._logging import logger
 
 
-def prepare_features(query_adata, ref_model):
+def prepare_features(query_adata: sc.AnnData, ref_model):
     """Prepare the features of the query dataset to match the reference dataset."""
     ref_features = ref_model.adata.var_names
     query_features = query_adata.var_names

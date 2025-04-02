@@ -3,6 +3,7 @@ from typing import Literal
 
 import numpy as np
 import pandas as pd
+import scanpy as sc
 import tqdm
 from pynndescent import NNDescent
 from scipy import sparse
@@ -52,8 +53,6 @@ def build_nn(  # noqa: D103
     ref,
     query=None,
     k=100,
-    weight: Literal["unweighted", "dist", "gaussian_kernel"] = "unweighted",
-    sigma=None,
     use_rapids: bool = False,
 ):
     if query is None:
@@ -108,9 +107,9 @@ def random_walk_with_restart(init, transition_prob, alpha=0.5, num_rounds=100): 
 
 
 def get_wknn(
-    ref,
-    query,
-    ref2=None,
+    ref: np.ndarray,
+    query: np.ndarray,
+    ref2: np.ndarray | None = None,
     k: int = 100,
     query2ref: bool = True,
     ref2query: bool = False,
@@ -123,23 +122,23 @@ def get_wknn(
 
     Parameters
     ----------
-    ref : np.ndarray
+    ref
         The reference representation to build ref-query neighbor graph
-    query : np.ndarray
+    query
         The query representation to build ref-query neighbor graph
-    ref2 : np.ndarray
+    ref2
         The reference representation to build ref-ref neighbor graph
-    k : int
+    k
         Number of neighbors per cell
-    query2ref : bool
+    query2ref
         Consider query-to-ref neighbors
-    ref2query : bool
+    ref2query
         Consider ref-to-query neighbors
-    weighting_scheme : str
+    weighting_scheme
         How to weight edges in the ref-query neighbor graph
-    top_n : int
+    top_n
         The number of top neighbors to consider
-    return_adjs : bool
+    return_adjs
         Whether to return the adjacency matrices of ref-query, query-ref, ref-ref, and ref-ref for weighting
     """
     adj_q2r = build_nn(ref=ref, query=query, k=k)
@@ -186,26 +185,26 @@ def get_wknn(
         return wknn
 
 
-def estimate_presence_score(  # noqa: D103
-    ref_adata,
-    query_adata,
+def estimate_presence_score(
+    ref_adata: sc.AnnData,
+    query_adata: sc.AnnData,
     wknn=None,
-    use_rep_ref_wknn="X_latent",
-    use_rep_query_wknn="X_latent",
-    k_wknn=100,
-    query2ref_wknn=True,
-    ref2query_wknn=False,
-    weighting_scheme_wknn="jaccard_square",
+    use_rep_ref_wknn: str = "X_latent",
+    use_rep_query_wknn: str = "X_latent",
+    k_wknn: int = 100,
+    query2ref_wknn: bool = True,
+    ref2query_wknn: bool = False,
+    weighting_scheme_wknn: str = "jaccard_square",
     ref_trans_prop=None,
     use_rep_ref_trans_prop=None,
-    k_ref_trans_prop=50,
-    symm_ref_trans_prop=True,
+    k_ref_trans_prop: int = 50,
     split_by=None,
-    do_random_walk=True,
-    alpha_random_walk=0.1,
-    num_rounds_random_walk=100,
+    do_random_walk: bool = True,
+    alpha_random_walk: float = 0.1,
+    num_rounds_random_walk: int = 100,
     log=True,
 ):
+    """Estimate presence score of query cells in reference dataset."""
     if wknn is None:
         ref = ref_adata.obsm[use_rep_ref_wknn]
         query = query_adata.obsm[use_rep_query_wknn]
@@ -271,7 +270,7 @@ def estimate_presence_score(  # noqa: D103
     }
 
 
-def transfer_labels(ref_adata, query_adata, wknn, label_key="celltype"):
+def transfer_labels(ref_adata: sc.AnnData, query_adata: sc.AnnData, wknn, label_key: str = "celltype"):
     """Transfer labels from reference to query data."""
     scores = pd.DataFrame(
         wknn @ pd.get_dummies(ref_adata.obs[label_key]),
