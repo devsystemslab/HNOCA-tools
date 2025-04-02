@@ -10,7 +10,12 @@ and this project adheres to [Semantic Versioning][].
 
 ## [Unreleased]
 
-## v.0.2.0
+## v.0.2.1 (2025-04-02)
+
+### Fixed
+- Release workflow to PyPI [#12]({{ pr_url }}12)
+
+## v.0.2.0 (2025-04-01)
 
 ### Added
 
