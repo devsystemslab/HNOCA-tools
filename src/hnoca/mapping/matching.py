@@ -1,11 +1,12 @@
 import anndata
 import numpy as np
+import scanpy as sc
 from scipy import sparse
 
 
 def get_matched_transcriptome(  # noqa D103
-    adata,
-    adata_ref,
+    adata: sc.AnnData,
+    adata_ref: sc.AnnData,
     wknn,
     rescale_factor=1,
 ):
