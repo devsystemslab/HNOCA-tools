@@ -174,7 +174,7 @@ class AtlasMapper:
     def _get_latent(self, model, adata, key=None, **kwargs):
         if key is not None and key in adata.obsm.keys():
             return adata.obsm[key]
-        if self.model_type in ["scanvi", "scanvi"]:
+        if self.model_type in ["scanvi", "scvi"]:
             return model.get_latent_representation(adata, **kwargs)
         if self.model_type == "scpoli":
             return model.get_latent(adata, **kwargs)
