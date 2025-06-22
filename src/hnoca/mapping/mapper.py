@@ -32,17 +32,26 @@ class AtlasMapper:
         Args:
             ref_model: The reference model to map the query dataset to.
         """
-        # Check optional dependencies
+        # Check scvi-tools dependency (always needed)
         check_deps("scvi-tools")
-        check_deps("scarches")
-        # Import and store as attributes so other methods can use them
-        import scarches
-        import scvi  # local import assured by previous check
+
+        # Import scvi (assured by previous check)
+        import scvi
 
         self.scvi = scvi
-        self.scarches = scarches
 
-        self.model_type = self._check_model_type(ref_model)
+        # Determine model type first
+        self.model_type = self._check_model_type_early(ref_model, scvi)
+
+        # Only check for scarches if we're using scPoli
+        if self.model_type == "scpoli":
+            check_deps("scarches")
+            import scarches
+
+            self.scarches = scarches
+        else:
+            self.scarches = None
+
         self.ref_model = ref_model
         self.ref_adata = ref_model.adata
         self.query_model = None
@@ -105,6 +114,9 @@ class AtlasMapper:
 
     def _train_scpoli(self, query_adata: sc.AnnData, retrain: str = "partial", labeled_indices=None, **kwargs):
         """Train a new scpoli model on the query data"""
+        if self.scarches is None:
+            raise RuntimeError("scarches is required for scPoli models but was not imported")
+
         freeze = retrain != "full"  # noqa F841
         labeled_indices = [] if labeled_indices is None else labeled_indices
 
@@ -124,15 +136,40 @@ class AtlasMapper:
 
         self.query_model = vae_q
 
+    def _check_model_type_early(self, model, scvi):
+        """Check model type before importing scarches."""
+        if hasattr(model, "__class__"):
+            class_name = model.__class__.__name__
+
+            if "scanvi" in class_name.lower() or "SCANVI" in class_name:
+                return "scanvi"
+            elif "scvi" in class_name.lower() or "SCVI" in class_name:
+                return "scvi"
+            elif "scpoli" in class_name.lower() or "scPoli" in class_name:
+                return "scpoli"
+
+        # Fallback to isinstance checks if available
+        try:
+            if isinstance(model, scvi.model._scanvi.SCANVI):
+                return "scanvi"
+            elif isinstance(model, scvi.model._scvi.SCVI):
+                return "scvi"
+        except AttributeError:
+            pass
+
+        return "unknown"
+
     def _check_model_type(self, model):
+        """Check model type with full imports available."""
         if isinstance(model, self.scvi.model._scanvi.SCANVI):
             return "scanvi"
         elif isinstance(model, self.scvi.model._scvi.SCVI):
             return "scvi"
-        elif isinstance(model, self.scarches.models.scpoli.scPoli):
-            return "scpoli"
-        else:
-            raise RuntimeError("This VAE model is currently not supported")
+        elif self.scarches is not None and hasattr(self.scarches.models, "scpoli"):
+            if isinstance(model, self.scarches.models.scpoli.scPoli):
+                return "scpoli"
+
+        raise RuntimeError("This VAE model is currently not supported")
 
     def _get_latent(self, model, adata, key=None, **kwargs):
         if key is not None and key in adata.obsm.keys():
