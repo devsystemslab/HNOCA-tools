@@ -349,3 +349,76 @@ class AtlasMapper:
         with open(os.path.join(input_dir, "mapper.pkl"), "rb") as f:
             mapper = cloudpickle.load(f)
         return mapper
+
+    def save_query_model(self, output_dir: str, overwrite: bool = False) -> None:
+        """Save the fine-tuned query model to disk.
+
+        This saves the query model that was created during the mapping process,
+        which contains the fine-tuned weights for your query dataset.
+
+        Parameters
+        ----------
+        output_dir
+            Directory where to save the model
+        overwrite
+            Whether to overwrite existing model files
+
+        Raises
+        ------
+        AttributeError
+            If no query model has been trained yet
+        RuntimeError
+            If output directory exists and overwrite is False
+        """
+        if self.query_model is None:
+            raise AttributeError(
+                "No query model to save. Please run map_query() with retrain='partial' or 'full' first."
+            )
+
+        # Check if directory exists
+        if os.path.exists(output_dir) and not overwrite:
+            raise RuntimeError(f"Output directory {output_dir} already exists. Set overwrite=True to overwrite.")
+
+        # Save the model using the appropriate scvi-tools method
+        try:
+            self.query_model.save(output_dir, overwrite=overwrite)
+            print(f"✓ Query model saved to {output_dir}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to save query model: {e}") from e
+
+    def load_query_model(self, model_dir: str, adata: ad.AnnData | None = None) -> None:
+        """Load a previously saved fine-tuned query model.
+
+        Parameters
+        ----------
+        model_dir
+            Directory containing the saved model
+        adata
+            AnnData object to load with the model. If None, uses the current query_adata
+
+        Raises
+        ------
+        RuntimeError
+            If model loading fails or model type doesn't match
+        """
+        if adata is None and self.query_adata is None:
+            raise AttributeError("No query data available. Please provide adata parameter.")
+
+        target_adata = adata if adata is not None else self.query_adata
+
+        try:
+            if self.model_type == "scanvi":
+                self.query_model = self.scvi.model.SCANVI.load(model_dir, adata=target_adata)
+            elif self.model_type == "scvi":
+                self.query_model = self.scvi.model.SCVI.load(model_dir, adata=target_adata)
+            elif self.model_type == "scpoli":
+                if self.scarches is None:
+                    raise RuntimeError("scarches is required to load scPoli models")
+                self.query_model = self.scarches.models.scPoli.load(model_dir, adata=target_adata)
+            else:
+                raise RuntimeError(f"Unsupported model type: {self.model_type}")
+
+            print(f"✓ Query model loaded from {model_dir}")
+
+        except Exception as e:
+            raise RuntimeError(f"Failed to load query model: {e}") from e
