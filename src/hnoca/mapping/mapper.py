@@ -408,16 +408,29 @@ class AtlasMapper:
             cloudpickle.dump(self, f)
 
     @classmethod
-    def load(cls, input_dir: str):
+    def load(cls, input_dir: str, validate_data: bool = True):
         """
         Load the mapper object from disk
 
-        Args:
-            input_dir: str
-                The directory to load the mapper object
+        Parameters
+        ----------
+        input_dir
+            The directory to load the mapper object from
+        validate_data
+            Whether to run data quality checks on the loaded reference data
+
+        Returns
+        -------
+        mapper
+            The loaded AtlasMapper instance
         """
         with open(os.path.join(input_dir, "mapper.pkl"), "rb") as f:
             mapper = cloudpickle.load(f)
+
+        # Run data quality validation if requested
+        if validate_data and hasattr(mapper, "ref_adata") and mapper.ref_adata is not None:
+            mapper._check_data_quality(mapper.ref_adata, "reference (loaded)")
+
         return mapper
 
     def save_query_model(self, output_dir: str, overwrite: bool = False) -> None:
