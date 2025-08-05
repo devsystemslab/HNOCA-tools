@@ -179,20 +179,47 @@ class AtlasMapper:
         if self.model_type == "scpoli":
             return model.get_latent(adata, **kwargs)
 
-    def get_latent_representation(self, adata=None, **kwargs):
+    def get_latent_representation(self, adata=None, use_reference: bool = False, **kwargs):
         """
-        Get the latent representation of the query and reference datasets
+        Get the latent representation of the query or reference datasets
 
-        Args:
-            adata: The query or reference dataset
-            **kwargs: Additional keyword arguments to pass to the get_latent function
+        By default, returns the latent representation of the query data using the
+        query model (if available) or reference model. Can optionally return the
+        latent representation of the reference data.
+
+        Parameters
+        ----------
+        adata
+            The dataset to get latent representation for. If None, uses query_adata
+            by default or ref_adata if use_reference=True
+        use_reference
+            If True, get latent representation of reference data. If False (default),
+            get latent representation of query data
+        **kwargs
+            Additional keyword arguments to pass to the underlying get_latent function
 
         Returns
         -------
-            A tuple with the latent representation of the query and reference datasets
+        latent_representation
+            Latent representation of the specified dataset
         """
-        adata = self.query_adata if adata is None else adata
+        # Determine which data to use
+        if adata is None:
+            if use_reference:
+                if self.ref_adata is None:
+                    raise AttributeError("Reference data not available")
+                adata = self.ref_adata
+            else:
+                if self.query_adata is None:
+                    raise AttributeError(
+                        "Query data not available. Please run map_query() first or provide adata parameter"
+                    )
+                adata = self.query_adata
+
+        # Determine which model to use
         model = self.query_model if self.query_model is not None else self.ref_model
+
+        # Prepare features and get latent representation
         adata = prepare_features(adata, model)
         latent = self._get_latent(model, adata, **kwargs)
         return latent
