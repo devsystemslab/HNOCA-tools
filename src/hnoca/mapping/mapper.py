@@ -7,7 +7,6 @@ import anndata as ad
 import cloudpickle
 import numpy as np
 import scanpy as sc
-import scipy.sparse
 
 from hnoca.utils import check_deps
 
@@ -59,41 +58,6 @@ class AtlasMapper:
         self.ref_trans_prob = None
         self.wknn = None
 
-        # Check reference data quality
-        self._check_data_quality(self.ref_adata, "reference")
-
-    def _check_data_quality(self, adata: ad.AnnData, data_type: str = "query") -> None:
-        """Check data quality and warn about potential issues.
-
-        Parameters
-        ----------
-        adata
-            AnnData object to check
-        data_type
-            Type of data being checked (for logging purposes)
-        """
-        # Check for sparse matrix format
-        if hasattr(adata, "X") and scipy.sparse.issparse(adata.X):
-            if hasattr(adata.X, "format") and adata.X.format != "csr":
-                print(
-                    f"ℹ️  Consider converting {data_type} data to CSR format for faster training: adata.X = adata.X.tocsr()"
-                )
-
-        # Check for rare cell types if labels are present
-        if self.model_type == "scanvi" and hasattr(self.ref_model, "adata"):
-            if hasattr(self.ref_model.adata, "uns") and "scvi" in self.ref_model.adata.uns:
-                label_key = self.ref_model.adata.uns["scvi"]["categorical_mappings"]["_scvi_labels"]["original_key"]
-                if label_key in adata.obs.columns:
-                    label_counts = adata.obs[label_key].value_counts()
-                    rare_labels = label_counts[label_counts < 3]
-                    if len(rare_labels) > 0:
-                        print(
-                            f"⚠️  Found {len(rare_labels)} cell type(s) in {data_type} data with <3 cells: {list(rare_labels.index)}"
-                        )
-                        print(
-                            "   This may cause training instability. Consider filtering or combining rare cell types."
-                        )
-
     def map_query(
         self,
         query_adata: ad.AnnData,
@@ -119,9 +83,6 @@ class AtlasMapper:
         **kwargs
             Additional keyword arguments to pass to the training function
         """
-        # Check data quality
-        self._check_data_quality(query_adata, "query")
-
         # Prepare the features of the query dataset
         query_adata = prepare_features(query_adata, self.ref_model)
 
@@ -408,7 +369,7 @@ class AtlasMapper:
             cloudpickle.dump(self, f)
 
     @classmethod
-    def load(cls, input_dir: str, validate_data: bool = True):
+    def load(cls, input_dir: str):
         """
         Load the mapper object from disk
 
@@ -416,8 +377,6 @@ class AtlasMapper:
         ----------
         input_dir
             The directory to load the mapper object from
-        validate_data
-            Whether to run data quality checks on the loaded reference data
 
         Returns
         -------
@@ -426,10 +385,6 @@ class AtlasMapper:
         """
         with open(os.path.join(input_dir, "mapper.pkl"), "rb") as f:
             mapper = cloudpickle.load(f)
-
-        # Run data quality validation if requested
-        if validate_data and hasattr(mapper, "ref_adata") and mapper.ref_adata is not None:
-            mapper._check_data_quality(mapper.ref_adata, "reference (loaded)")
 
         return mapper
 
