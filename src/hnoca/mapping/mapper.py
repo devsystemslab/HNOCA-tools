@@ -33,8 +33,8 @@ class AtlasMapper:
             ref_model: The reference model to map the query dataset to.
         """
         # Check optional dependencies
-        check_deps("scvi-tools")
-        check_deps("scarches")
+        # check_deps("scvi-tools") # Comment as it is a function that fails to detect scvi-tools was installed
+        # check_deps("scarches") # Comment as it is a function that fails to detect scArches was installed
         # Import and store as attributes so other methods can use them
         import scarches
         import scvi  # local import assured by previous check
