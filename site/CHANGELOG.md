@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning][].
 ## [Unreleased]
 
 ### Added
-- `snapseed.process_snapseed` maps the assignments of `annotate_hierarchy` onto `adata.obs`, one column per level, with missing levels filled from the parent, an optional per-sample filter of rare categories, and categories ordered and colored by the hierarchy; `snapseed.display_missing_genes` logs marker genes absent from the data [#PR]({{ pr_url }}PR).
+- `snapseed.process_snapseed` maps the assignments of `annotate_hierarchy` onto `adata.obs`, one column per level, with missing levels filled from the parent, an optional per-sample filter of rare categories, and categories ordered and colored by the hierarchy; `snapseed.display_missing_genes` logs marker genes absent from the data [#30]({{ pr_url }}30).
 
 ## v.0.2.1 (2025-04-02)
 
