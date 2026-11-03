@@ -110,6 +110,20 @@ def derive_child_colors(
     return child_colors
 
 
+def _with_ancestors(marker_dict: dict, cell_types: set[str]) -> set[str]:
+    """The cell types and their ancestors in the hierarchy."""
+    out = set()
+
+    def traverse(node, path):
+        for cell_type, value in node.items():
+            if cell_type in cell_types:
+                out.update(path, {cell_type})
+            traverse(value.get("subtypes", {}), [*path, cell_type])
+
+    traverse(marker_dict, [])
+    return out
+
+
 def _build_hierarchy(
     marker_hierarchy: dict,
     present_cell_types: set[str],
@@ -220,9 +234,9 @@ def process_snapseed(
         base_colormap: Name of a matplotlib colormap for the top-level categories.
         get_colors: Whether to write colors consistent across levels to `adata.uns["<prefix>_level_<n>_colors"]`.
         sample_key: Column in `adata.obs` with the sample. If given, per sample and level, categories below
-            `min_abs_freq` cells or below a fraction `min_rel_freq` of the sample's cells are set to missing.
+            `min_abs_freq` cells or below a fraction `min_rel_freq` of the sample's annotated cells are set to missing.
         min_abs_freq: Minimum number of cells of a category in a sample to retain it.
-        min_rel_freq: Minimum fraction of a sample's cells in a category to retain it.
+        min_rel_freq: Minimum fraction of a sample's annotated cells in a category to retain it.
         rotation_step: Step size for hue rotation when generating child colors.
         saturation_adjust: Adjustment factor for saturation (positive to increase, negative to decrease).
         brightness_adjust: Adjustment factor for brightness (positive to increase, negative to decrease).
@@ -234,7 +248,8 @@ def process_snapseed(
     """
     levels = sorted(ann_df.keys(), key=lambda x: int(x.split("_")[1]))
 
-    present_cell_types = set(ann_df.stack().unique())
+    # a subtype can pass `min_expr` where its parent does not; the parent still needs a color to derive the subtype's
+    present_cell_types = _with_ancestors(marker_dict, set(ann_df.stack().unique()))
     hierarchy = _build_hierarchy(
         marker_dict,
         present_cell_types,

@@ -109,6 +109,17 @@ def test_process_snapseed_annotate_hierarchy(adata_annotate, marker_h3):
     assert all(l2 in children[l1] for l1, l2 in zip(obs["snap_level_1"], obs["snap_level_2"], strict=True))
 
 
+def test_process_snapseed_child_without_parent(adata_clusters, marker_h3, ann_df):
+    # snapseed recurses before filtering by min_expr, so a cluster can pass at level 2 but not at level 1
+    ann_df.loc["5", "level_2"] = "CD8_T_cell"
+    process_snapseed(adata_clusters, marker_h3, ann_df, prefix="snap", sample_key=None)
+    obs = adata_clusters.obs
+    cl5 = obs["leiden"] == "5"
+    assert obs.loc[cl5, "snap_level_1"].isna().all()
+    assert obs.loc[cl5, "snap_level_2"].eq("CD8_T_cell").all()
+    assert len(adata_clusters.uns["snap_level_2_colors"]) == len(obs["snap_level_2"].cat.categories)
+
+
 def test_process_snapseed_small_colormap(adata_clusters, marker_h3, ann_df):
     # three top-level cell types, two colors
     name = "hnoca_test_two_colors"
