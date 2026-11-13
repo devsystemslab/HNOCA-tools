@@ -1,5 +1,6 @@
 import anndata as ad
 import numpy as np
+import pandas as pd
 
 from hnoca.utils import check_deps
 
@@ -25,7 +26,7 @@ def create_pseudobulk(
         mode: Method to aggregate data. Default is 'sum'.
         min_cells: Filter to remove samples by a minimum number of cells in a sample-group pair.
         min_counts: Filter to remove samples by a minimum number of summed counts in a sample-group pair.
-        **kwargs: Additional arguments to pass to `decoupler.get_pseudobulk()`
+        **kwargs: Additional arguments to pass to `decoupler.pp.pseudobulk()`
 
 
     Returns
@@ -33,34 +34,16 @@ def create_pseudobulk(
         AnnData object with pseudobulk data
     """
     check_deps("decoupler")
-    from decoupler import get_pseudobulk
+    import decoupler as dc
 
-    if layer is not None:
-        adata.X = adata.layers[layer].copy()
-
-    adata.obs["n_genes"] = (adata.X > 0).sum(axis=1).A.ravel()
-
-    if group_key is not None:
-        adata.obs["group"] = adata.obs[group_key]
-    else:
-        adata.obs["group"] = "group"
-
-    adata_pb = get_pseudobulk(
-        adata,
-        sample_col=sample_key,
-        groups_col="group",
-        layer=layer,
-        mode=mode,
-        min_cells=min_cells,
-        min_counts=min_counts,
-        **kwargs,
-    )
+    adata_pb = dc.pp.pseudobulk(adata, sample_col=sample_key, groups_col=group_key, layer=layer, mode=mode, **kwargs)
+    dc.pp.filter_samples(adata_pb, min_cells=min_cells, min_counts=min_counts)
     adata_pb.X = np.round(adata_pb.X)
-    adata_pb.obs["n_genes_median"] = [
-        adata.obs.groupby("batch").median()["n_genes"].loc[i.split("_onegroup")[0]] for i in adata_pb.obs.index
-    ]
-    adata_pb.obs["n_genes_std"] = [
-        adata.obs.groupby("batch").std()["n_genes"].loc[i.split("_onegroup")[0]] for i in adata_pb.obs.index
-    ]
+
+    X = adata.layers[layer] if layer is not None else adata.X
+    n_genes = pd.Series(np.asarray((X > 0).sum(axis=1)).ravel(), index=adata.obs_names)
+    n_genes_by_sample = n_genes.groupby(adata.obs[sample_key], observed=True)
+    adata_pb.obs["n_genes_median"] = adata_pb.obs[sample_key].map(n_genes_by_sample.median()).to_numpy()
+    adata_pb.obs["n_genes_std"] = adata_pb.obs[sample_key].map(n_genes_by_sample.std()).to_numpy()
 
     return adata_pb

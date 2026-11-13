@@ -17,11 +17,9 @@ authors = [
   { name = "Zhisong He" },
   { name = "Leander Dony" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -48,7 +46,7 @@ optional-dependencies.mapping = [
   "scvi-tools>=1.2",
 ]
 optional-dependencies.stats = [
-  "decoupler>=1.6",
+  "decoupler>=2",
 ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
@@ -83,9 +81,10 @@ envs.docs.scripts.build = "mkdocs build {args}"
 envs.docs.scripts.clean = "rm -rf docs/*"
 envs.docs.scripts.serve = "mkdocs serve {args}"
 envs.docs.dependency-groups = [ "doc" ]
+envs.hatch-test.features = [ "stats" ]
 envs.hatch-test.matrix = [
   # Test the lowest and highest supported Python versions with normal deps
-  { deps = [ "stable" ], python = [ "3.10", "3.14" ] },
+  { deps = [ "stable" ], python = [ "3.12", "3.14" ] },
   # Test the newest supported Python version also with pre-release deps
   { deps = [ "pre" ], python = [ "3.14" ] },
 ]
