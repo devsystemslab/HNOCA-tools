@@ -23,6 +23,8 @@ def annotate_hierarchy(
             hierarchically.
         group_name: Name of the column in adata.obs that contains the cluster labels
         layer: Layer in adata to use for expression
+        min_expr: Minimum detection rate of the called type's best marker in a cluster for the call to stand. A call
+            at a level stands only if the cluster's call at the level above stands too.
         **kwargs: Additional arguments to pass to the annotation function.
 
     Returns
