@@ -50,6 +50,8 @@ nav:
         - annotate: api/snapseed/annotate.md
         - annotate_hierarchy: api/snapseed/annotate_hierarchy.md
         - find_markers: api/snapseed/find_markers.md
+        - process_snapseed: api/snapseed/process_snapseed.md
+        - display_missing_genes: api/snapseed/display_missing_genes.md
       - stats:
         - test_de: api/stats/test_de.md
         - test_de_paired: api/stats/test_de_paired.md
