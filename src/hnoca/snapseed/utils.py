@@ -1,7 +1,6 @@
 from functools import partial
 
 import jax
-import numba
 import pandas as pd
 import yaml
 from jax import numpy as jnp
@@ -46,20 +45,17 @@ def dict_to_binary(d):
     return marker_mat
 
 
-@numba.jit
-def match(a, b):  # noqa D103
-    return [b.index(x) if x in b else None for x in a]
-
-
 def get_expr(adata, features=None, layer=None):
     """Get expression matrix from adata object"""
     if features is not None:
         # intersect with adata features
-        features = list(set(features) & set(adata.var_names))
-        adata = adata[
-            :,
-            match(numba.typed.List(features), numba.typed.List(adata.var_names.tolist())),
-        ]
+        features = [f for f in dict.fromkeys(features) if f in adata.var_names]
+        if not features:
+            raise ValueError(
+                "None of the marker genes are in `adata.var_names`. "
+                "Check that markers and `adata.var_names` use the same gene identifiers (e.g. symbols, not Ensembl IDs)."
+            )
+        adata = adata[:, features]
     else:
         features = adata.var_names.copy().tolist()
 
