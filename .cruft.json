@@ -11,7 +11,7 @@
             "author_email": "marius.lange@bsse.ethz.ch",
             "github_user": "devsystemslab",
             "github_repo": "HNOCA-tools",
-            "license": "GPLv3",
+            "license": "GNU General Public License Version 3",
             "ide_integration": true,
             "_copy_without_render": [
                 ".github/workflows/build.yaml",
