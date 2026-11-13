@@ -38,3 +38,8 @@ def test_create_pseudobulk(adata_counts, group_key):
 def test_create_pseudobulk_filters(adata_counts):
     pb = create_pseudobulk(adata_counts, sample_key="sample", group_key="celltype", min_cells=100)
     assert pb.n_obs == 0
+
+
+def test_create_pseudobulk_no_filter(adata_counts):
+    pb = create_pseudobulk(adata_counts, sample_key="sample", group_key="celltype", min_cells=0, min_counts=0)
+    assert pb.n_obs == 6

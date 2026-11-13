@@ -37,7 +37,8 @@ def create_pseudobulk(
     import decoupler as dc
 
     adata_pb = dc.pp.pseudobulk(adata, sample_col=sample_key, groups_col=group_key, layer=layer, mode=mode, **kwargs)
-    dc.pp.filter_samples(adata_pb, min_cells=min_cells, min_counts=min_counts)
+    # every pseudobulk sample has at least one cell; decoupler 2 rejects min_cells < 1
+    dc.pp.filter_samples(adata_pb, min_cells=max(min_cells, 1), min_counts=min_counts)
     adata_pb.X = np.round(adata_pb.X)
 
     X = adata.layers[layer] if layer is not None else adata.X
