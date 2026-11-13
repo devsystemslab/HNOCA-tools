@@ -24,6 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dynamic = [ "version" ]
 dependencies = [
@@ -43,12 +44,32 @@ dependencies = [
   "session-info2",
   "statsmodels>=0.14.2",
 ]
-optional-dependencies.dev = [
-  "pre-commit",
+optional-dependencies.mapping = [
+  "scarches>=0.6.1",
+  "scvi-tools>=1.2",
+]
+optional-dependencies.stats = [
+  "decoupler>=1.6",
+]
+# https://docs.pypi.org/project_metadata/#project-urls
+urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
+urls.Homepage = "https://github.com/devsystemslab/HNOCA-tools"
+urls.Source = "https://github.com/devsystemslab/HNOCA-tools"
+
+[dependency-groups]
+dev = [
+  "prek",
   "twine>=4.0.2",
 ]
-
-optional-dependencies.doc = [
+test = [
+  "coverage>=7.10",
+  "igraph>=0.11",
+  "pytest",
+  "pytest-cov",     # For VS Code’s coverage functionality
+  "pyyaml",
+  "rich",
+]
+doc = [
   "mkdocs-macros-plugin",
   "mkdocs-material",
   "mkdocstrings[python]",
@@ -56,50 +77,32 @@ optional-dependencies.doc = [
   "pymdown-extensions",
 ]
 
-optional-dependencies.mapping = [
-  "scarches>=0.6.1",
-  "scvi-tools>=1.2",
+[tool.hatch]
+version.source = "vcs"
+envs.default.installer = "uv"
+envs.default.dependency-groups = [ "dev" ]
+envs.docs.scripts.build = "mkdocs build {args}"
+envs.docs.scripts.clean = "rm -rf docs/*"
+envs.docs.scripts.serve = "mkdocs serve {args}"
+envs.docs.dependency-groups = [ "doc" ]
+envs.hatch-test.matrix = [
+  # Test the lowest and highest supported Python versions with normal deps
+  { deps = [ "stable" ], python = [ "3.10", "3.14" ] },
+  # Test the newest supported Python version also with pre-release deps
+  { deps = [ "pre" ], python = [ "3.14" ] },
 ]
-
-optional-dependencies.stats = [
-  "decoupler>=1.6",
+# If the matrix variable `deps` is set to "pre",
+# set the environment variable `UV_PRERELEASE` to "allow".
+envs.hatch-test.overrides.matrix.deps.env-vars = [
+  { value = "allow", key = "UV_PRERELEASE", if = [ "pre" ] },
 ]
-
-optional-dependencies.test = [
-  "coverage",
-  "igraph>=0.11",
-  "pytest",
-  "pyyaml",
-  "rich",
-]
-# https://docs.pypi.org/project_metadata/#project-urls
-urls.Documentation = "https://devsystemslab.github.io/HNOCA-tools/"
-urls.Homepage = "https://github.com/devsystemslab/HNOCA-tools"
-urls.Source = "https://github.com/devsystemslab/HNOCA-tools"
-
-[tool.hatch.version]
-source = "vcs"
-
-[tool.hatch.envs.default]
-installer = "uv"
-features = [ "dev" ]
-
-[tool.hatch.envs.hatch-test]
-features = [ "test" ]
-
-[tool.hatch.envs.docs]
-features = [ "doc" ]
-scripts.build = "mkdocs build {args}"
-scripts.serve = "mkdocs serve {args}"
-scripts.clean = "rm -rf docs/*"
+envs.hatch-test.dependency-groups = [ "dev", "test" ]
 
 [tool.ruff]
 line-length = 120
 src = [ "src" ]
 extend-include = [ "*.ipynb" ]
-
 format.docstring-code-format = true
-
 lint.select = [
   "B",      # flake8-bugbear
   "BLE",    # flake8-blind-except
@@ -133,21 +136,26 @@ lint.per-file-ignores."docs/*" = [ "I" ]
 lint.per-file-ignores."tests/*" = [ "D" ]
 lint.pydocstyle.convention = "numpy"
 
-[tool.pytest.ini_options]
-testpaths = [ "tests" ]
-xfail_strict = true
+[tool.pyproject-fmt]
+max_supported_python = "3.14"  # keep classifiers in line with the hatch-test matrix
+
+[tool.pytest]
 addopts = [
   "--import-mode=importlib", # allow using test files with same name
 ]
+strict = true
+testpaths = [ "tests" ]
 
-[tool.coverage.run]
-source = [ "hnoca" ]
-omit = [
+[tool.coverage]
+run.source = [ "hnoca" ]
+run.omit = [
   "**/test_*.py",
 ]
+run.patch = [ "subprocess" ]
 
 [tool.cruft]
 skip = [
+  ".git",
   "tests",
   "src/**/__init__.py",
   "src/**/basic.py",

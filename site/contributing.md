@@ -30,7 +30,7 @@ In addition to the packages needed to _use_ this package, you need additional py
     cd hnoca
     python3 -m venv .venv
     source .venv/bin/activate
-    pip install -e ".[dev,test,doc]"
+    pip install -e . --group dev --group test --group doc  # pip >= 25.1
     ```
 
 [hatch environments]: https://hatch.pypa.io/latest/tutorials/environment/basic-usage/
@@ -43,7 +43,7 @@ On every commit, pre-commit checks will either automatically fix issues with the
 To enable pre-commit locally, simply run
 
 ```bash
-pre-commit install
+prek install  # or `pre-commit install`; prek is a faster drop-in, included in the `dev` group
 ```
 
 in the root of the repository.
@@ -170,7 +170,7 @@ Our documentation integrates Jupyter notebooks using the [mknotebooks](https://m
 
     ```bash
     hatch run docs:build
-    hatch run docs:open
+    hatch run docs:serve
     ```
 
 === "Pip"

@@ -38,6 +38,7 @@ MANIFEST
 # Tests and coverage
 /data/
 /node_modules/
+/.coverage*
 
 # Notebooks
 docs/notebooks/data/
