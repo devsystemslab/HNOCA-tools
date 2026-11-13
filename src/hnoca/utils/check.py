@@ -91,7 +91,7 @@ INSTALL_HINTS = types.SimpleNamespace(
 CHECKERS = {
     "scvi-tools": ModuleChecker("scvi", package_name="scvi-tools", vmin="1.2", install_hint=INSTALL_HINTS.scvi),
     "scarches": ModuleChecker("scarches", vmin="0.6.1", install_hint=INSTALL_HINTS.scarches),
-    "decoupler": ModuleChecker("decoupler", vmin="1.6", install_hint=INSTALL_HINTS.decoupler),
+    "decoupler": ModuleChecker("decoupler", vmin="2", install_hint=INSTALL_HINTS.decoupler),
     "cuml": ModuleChecker("cuml", vmin=None, install_hint=INSTALL_HINTS.cuml),
 }
 
