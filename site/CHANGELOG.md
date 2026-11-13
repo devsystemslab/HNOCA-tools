@@ -8,10 +8,17 @@ and this project adheres to [Semantic Versioning][].
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## v0.2.2 (2026-11-13)
 
 ### Added
 - `snapseed.process_snapseed` maps the assignments of `annotate_hierarchy` onto `adata.obs`, one column per level, with missing levels filled from the parent, an optional per-sample filter of rare categories, and categories ordered and colored by the hierarchy; `snapseed.display_missing_genes` logs marker genes absent from the data [#30]({{ pr_url }}30).
+
+### Fixed
+- The scvi-tools dependency check failed even with scvi-tools installed ([#25](https://github.com/devsystemslab/HNOCA-tools/issues/25)), and the cuML check failed for `cuml-cu12` installs [#34]({{ pr_url }}34).
+- `transfer_labels` raised a `TypeError`, and `estimate_presence_score` with `split_by` raised an `AttributeError`; reported by @aregano in [#26]({{ pr_url }}26) [#34]({{ pr_url }}34).
+
+### Changed
+- Updated to cookiecutter-scverse v0.8.0: the `dev`, `test` and `doc` extras are now dependency groups (`pip install -e . --group dev --group test --group doc`), tests run on Python 3.10 and 3.14, docs deploy only from `main`, and pre-commit.ci passes again [#32]({{ pr_url }}32).
 
 ## v.0.2.1 (2025-04-02)
 
