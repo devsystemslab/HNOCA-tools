@@ -225,7 +225,7 @@ def estimate_presence_score(
 
     if split_by and split_by in query_adata.obs.columns:
         presence_split = [
-            np.array(wknn[query_adata.obs[split_by] == x, :].sum(axis=0)).flatten()
+            np.array(wknn[(query_adata.obs[split_by] == x).to_numpy(), :].sum(axis=0)).flatten()
             for x in query_adata.obs[split_by].unique()
         ]
     else:
@@ -277,6 +277,7 @@ def transfer_labels(ref_adata: sc.AnnData, query_adata: sc.AnnData, wknn, label_
         columns=pd.get_dummies(ref_adata.obs[label_key]).columns,
         index=query_adata.obs_names,
     )
-    scores["best_label"] = scores.idxmax(1)
-    scores["best_score"] = scores.max(1)
+    best_score = scores.max(axis=1)  # before adding the string column `best_label`
+    scores["best_label"] = scores.idxmax(axis=1)
+    scores["best_score"] = best_score
     return scores
