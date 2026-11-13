@@ -10,7 +10,7 @@ repos:
     rev: v2.6.7
     hooks:
       - id: biome-format
-        types_or: [json] # biome >=2.6 also formats Markdown and breaks mkdocs syntax
+        files: \.jsonc?$ # biome >=2.6 also formats Markdown and breaks mkdocs syntax
         exclude: ^\.cruft\.json$ # inconsistent indentation with cruft - file never to be modified manually.
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: v2.30.6
