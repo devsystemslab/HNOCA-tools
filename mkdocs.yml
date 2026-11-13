@@ -21,8 +21,6 @@ theme:
     accent: orange
 extra_css:
   - stylesheets/extra.css
-extra:
-  pr_url: https://github.com/devsystemslab/HNOCA-tools/pull/
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
@@ -36,7 +34,7 @@ nav:
     - HNOCA-tools: quickstart.md
     - ArchMap: archmap.md
     - Contributing: contributing.md
-    - Changelog: CHANGELOG.md
+    - Release notes: CHANGELOG.md
   - Tutorials:
     - Get started: vignettes/get_started.md
     - HNOCA exploration and mapping: vignettes/exploration.ipynb
@@ -75,4 +73,3 @@ plugins:
   - mknotebooks:
       enable_default_jupyter_cell_styling: false
       enable_default_pandas_dataframe_styling: false
-  - macros
