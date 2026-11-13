@@ -56,6 +56,19 @@ def test_annotate(adata_annotate, marker_h1, expected_snap_class):
     assert_annotation_counts(adata_annotate, "snap_class", expected_snap_class, "snap_class counts")
 
 
+def test_annotate_no_markers_in_data(adata_annotate):
+    """Marker genes that are all absent from `var_names` (e.g. Ensembl IDs vs. symbols) raise a clear error."""
+    markers = {"T_cell": ["ENSG00000010610"], "B_cell": ["ENSG00000177455"]}
+    with pytest.raises(ValueError, match="None of the marker genes"):
+        annotate(adata_annotate, markers, group_name="leiden")
+
+
+def test_annotate_some_markers_missing(adata_annotate):
+    """Marker genes absent from `var_names` are ignored."""
+    markers = {"T_cell": ["CD3E", "NOT_A_GENE"], "B_cell": ["MS4A1"]}
+    assert set(annotate(adata_annotate, markers, group_name="leiden")["class"]) <= {"T_cell", "B_cell"}
+
+
 def test_annotate_hierarchy(adata_annotate, marker_h2, expected_snap_level_1, expected_snap_level_2):
     """Test that annotate_hierarchy works with a hierarchical marker dict."""
     ann_dict = annotate_hierarchy(adata_annotate, marker_h2, group_name="leiden")
