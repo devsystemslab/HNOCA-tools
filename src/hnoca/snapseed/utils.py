@@ -92,7 +92,9 @@ def get_annot_df(x, group_name, min_expr=0.1):
     annot_df = pd.concat(annot_list, axis=1)
     # Rename cols to levels
     annot_df.columns = [str(i) for i in x.keys()]
-    return annot_df
+    # A call stands only below a call that stands: annotate_levels descends into each cluster's best class whether or
+    # not that class passed min_expr, so without this a subtype could be called under a parent that was not
+    return annot_df.where(annot_df.notna().astype(int).cummin(axis=1).astype(bool))
 
 
 def matrix_to_long_df(x, features, groups):

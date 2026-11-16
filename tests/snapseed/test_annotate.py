@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from hnoca.snapseed.annotate import annotate, annotate_hierarchy
-from hnoca.snapseed.utils import marker_dict_depth
+from hnoca.snapseed.utils import get_annot_df, marker_dict_depth
 
 
 def assert_annotation_counts(adata, obs_column, expected_series, obj_str):
@@ -80,3 +80,25 @@ def test_annotate_hierarchy(adata_annotate, marker_h2, expected_snap_level_1, ex
 
     assert_annotation_counts(adata_annotate, "snap_level_1", expected_snap_level_1, "snap_level_1 counts")
     assert_annotation_counts(adata_annotate, "snap_level_2", expected_snap_level_2, "snap_level_2 counts")
+
+
+def test_get_annot_df_call_needs_parent():
+    """A call stands only below a call that stands, whatever its own detection rate."""
+
+    def level(classes, expr):
+        return pd.DataFrame({"leiden": ["0", "1", "2"], "class": classes, "expr": expr})
+
+    metrics = {
+        "level_1": level(["A", "A", "B"], [0.5, 0.01, 0.5]),
+        "level_2": level(["A1", "A1", "B1"], [0.5, 0.5, 0.01]),
+        "level_3": level(["A1a", "A1a", "B1a"], [0.5, 0.5, 0.5]),
+    }
+    ann = get_annot_df(metrics, "leiden", min_expr=0.1)
+    assert ann.loc["0"].tolist() == ["A", "A1", "A1a"]
+    # cluster 1 fails at level 1 and cluster 2 at level 2: nothing below stands, although it passes min_expr
+    assert ann.loc["1"].isna().all()
+    assert ann.loc["2", "level_1"] == "B"
+    assert ann.loc["2", ["level_2", "level_3"]].isna().all()
+
+    # without a threshold every call stands
+    assert get_annot_df(metrics, "leiden", min_expr=0).notna().all().all()
