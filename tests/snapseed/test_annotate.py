@@ -102,3 +102,21 @@ def test_get_annot_df_call_needs_parent():
 
     # without a threshold every call stands
     assert get_annot_df(metrics, "leiden", min_expr=0).notna().all().all()
+
+
+def _with_references(hierarchy: dict) -> dict:
+    """A copy of a marker hierarchy with a `references` entry for every marker of every node."""
+    out = {}
+    for name, node in hierarchy.items():
+        new = {**node, "references": {gene: f"source for {gene} in {name}" for gene in node["marker_genes"]}}
+        if "subtypes" in node:
+            new["subtypes"] = _with_references(node["subtypes"])
+        out[name] = new
+    return out
+
+
+def test_annotate_hierarchy_ignores_other_node_keys(adata_annotate, marker_h2):
+    """Keys of a node other than marker_genes and subtypes, such as references, do not change the annotation."""
+    plain = annotate_hierarchy(adata_annotate, marker_h2, group_name="leiden")["assignments"]
+    annotated = annotate_hierarchy(adata_annotate, _with_references(marker_h2), group_name="leiden")["assignments"]
+    pd.testing.assert_frame_equal(plain, annotated)
