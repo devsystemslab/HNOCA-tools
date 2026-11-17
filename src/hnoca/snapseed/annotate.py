@@ -19,8 +19,9 @@ def annotate_hierarchy(
 
     Args:
         adata: AnnData object
-        marker_hierarchy: dict arker genes for each celltype arranged
-            hierarchically.
+        marker_hierarchy: Cell type name -> node. Each node has `marker_genes` (a list of genes) and optionally
+            `subtypes` (a dict of the same form, one level down). Other keys in a node, such as `references` for the
+            markers' sources, are ignored.
         group_name: Name of the column in adata.obs that contains the cluster labels
         layer: Layer in adata to use for expression
         min_expr: Minimum detection rate of the called type's best marker in a cluster for the call to stand. A call
